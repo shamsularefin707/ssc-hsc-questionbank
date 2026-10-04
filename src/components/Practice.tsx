@@ -15,8 +15,14 @@ const ROMAN = ['i', 'ii', 'iii'];
 const rich = (b: RichBi, lang: Lang) => (lang === 'bn' ? b.bnHtml : b.enHtml);
 const Html = ({ html, class: cls = 'q-body' }: { html: string; class?: string }) => <div class={cls} dangerouslySetInnerHTML={{ __html: html }} />;
 
-function PracticeQuestion({ q, n, total, stimulus, chosen, onChoose, lang }: { q: Mcq<RichBi>; n: number; total: number; stimulus?: Stimulus<RichBi>; chosen?: number; onChoose: (i: number) => void; lang: Lang }) {
-  const locked = chosen !== undefined;
+/**
+ * One MCQ with clickable options.
+ * - practice: the first choice locks and reveals the answer.
+ * - exam: choices stay changeable and nothing is revealed.
+ * - review: read-only, answer revealed (an unanswered question still shows the correct option).
+ */
+export function McqCard({ q, n, total, stimulus, chosen, onChoose, lang, mode = 'practice' }: { q: Mcq<RichBi>; n: number; total: number; stimulus?: Stimulus<RichBi>; chosen?: number; onChoose?: (i: number) => void; lang: Lang; mode?: 'practice' | 'exam' | 'review' }) {
+  const locked = mode === 'review' || (mode === 'practice' && chosen !== undefined);
   const L = LABELS[lang].options;
   return (
     <article class="card practice-card" aria-labelledby={`pq-${q.id}`}>
@@ -52,9 +58,9 @@ function PracticeQuestion({ q, n, total, stimulus, chosen, onChoose, lang }: { q
       ))}
       <div class="choices q-body" role="group" aria-label={UI.questionOf[lang]}>
         {q.options.map((o, i) => {
-          const state = !locked ? undefined : i === q.answer ? 'correct' : i === chosen ? 'wrong' : undefined;
+          const state = !locked ? (i === chosen ? 'selected' : undefined) : i === q.answer ? 'correct' : i === chosen ? 'wrong' : undefined;
           return (
-            <button key={i} type="button" class="choice" data-state={state} aria-disabled={locked} onClick={() => !locked && onChoose(i)}>
+            <button key={i} type="button" class="choice" data-state={state} aria-disabled={locked} aria-pressed={mode === 'exam' ? i === chosen : undefined} onClick={() => !locked && onChoose?.(i)}>
               <span class="opt-label">({L[i]})</span>
               <span class="choice-text" dangerouslySetInnerHTML={{ __html: rich(o, lang) }} />
               {state === 'correct' && (
@@ -161,7 +167,7 @@ export function Practice() {
 
   const stimulusOf = (q: Mcq<RichBi>) => (q.stimulus_id ? pool!.stimuli.get(`${q.chapter}/${q.stimulus_id}`) : undefined);
   const choose = (id: string, i: number) => setAnswers((a) => (id in a ? a : { ...a, [id]: i }));
-  const card = (q: Mcq<RichBi>, i: number) => <PracticeQuestion key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={stimulusOf(q)} chosen={answers[q.id]} onChoose={(c) => choose(q.id, c)} lang={lang} />;
+  const card = (q: Mcq<RichBi>, i: number) => <McqCard key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={stimulusOf(q)} chosen={answers[q.id]} onChoose={(c) => choose(q.id, c)} lang={lang} />;
   const newSet = () => {
     location.search = encodeSet(link.req, randomSeed());
   };

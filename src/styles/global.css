@@ -732,6 +732,10 @@ a.subject-row:hover {
 .choice[aria-disabled='true'] {
   cursor: default;
 }
+.choice[data-state='selected'] {
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+}
 .choice[data-state='correct'] {
   border-left: 2px solid var(--correct);
   background: var(--correct-soft);
@@ -768,6 +772,104 @@ a.subject-row:hover {
   margin-bottom: var(--s-4);
 }
 .score:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Mock exam ---------- */
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.mock-start {
+  display: grid;
+  gap: var(--s-4);
+}
+.rules {
+  margin: var(--s-2) 0 var(--s-4);
+  padding-left: var(--s-5);
+}
+.rules li + li {
+  margin-top: var(--s-2);
+}
+.timer-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--t-sm);
+}
+.timer-bar .time {
+  font-size: var(--t-lg);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.timer-bar .time[data-warn='true'] {
+  color: var(--warn);
+}
+.mock-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+.card[data-chosen='true'] {
+  border-color: var(--accent);
+}
+.btn-chosen {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--text);
+}
+.result {
+  margin-bottom: var(--s-6);
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--s-4);
+  margin: var(--s-4) 0 var(--s-5);
+}
+.result-grid dt {
+  font-size: var(--t-xs);
+  color: var(--text-muted);
+}
+.result-grid dd {
+  margin: 0;
+  font-size: var(--t-xl);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.section-title {
+  margin: var(--s-6) 0 var(--s-4);
+}
+.self-mark-part + .self-mark-part {
+  margin-top: var(--s-4);
+}
+.self-mark {
+  max-width: 220px;
+  margin-top: var(--s-2);
+}
+.field select {
+  min-height: 40px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.field select:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }

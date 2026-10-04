@@ -19,7 +19,10 @@ const level = manifest.level === 'ssc' ? { bn: 'এসএসসি', en: 'SSC' }
       <span class="bn">{level.bn} {manifest.title.bn}</span>
       <span class="en">{level.en} {manifest.title.en}</span>
     </h1>
-    <a class="btn" href={`/${manifest.level}/${manifest.subject}/build`}><span class="bn">{UI.buildTitle.bn}</span><span class="en">{UI.buildTitle.en}</span></a>
+    <div class="page-actions">
+      <a class="btn" href={`/${manifest.level}/${manifest.subject}/build`}><span class="bn">{UI.buildTitle.bn}</span><span class="en">{UI.buildTitle.en}</span></a>
+      <a class="btn" href={`/${manifest.level}/${manifest.subject}/mock`}><span class="bn">{UI.mockTitle.bn}</span><span class="en">{UI.mockTitle.en}</span></a>
+    </div>
   </div>
   <QuestionBank client:load manifest={manifest} />
 </Base>

@@ -19,7 +19,7 @@ const Html = ({ html, as: Tag = 'div' }: { html: string; as?: 'div' | 'span' }) 
 
 const rich = (b: RichBi, lang: Lang) => (lang === 'bn' ? b.bnHtml : b.enHtml);
 
-function Figures({ figures, lang }: { figures?: Figure[]; lang: Lang }) {
+export function Figures({ figures, lang }: { figures?: Figure[]; lang: Lang }) {
   if (!figures?.length) return null;
   return (
     <>
@@ -87,7 +87,7 @@ function McqSolution({ q, lang }: { q: Mcq<RichBi>; lang: Lang }) {
   );
 }
 
-function CqBody({ q, lang }: { q: Cq<RichBi>; lang: Lang }) {
+export function CqBody({ q, lang }: { q: Cq<RichBi>; lang: Lang }) {
   return (
     <>
       <Html html={rich(q.stimulus, lang)} />
