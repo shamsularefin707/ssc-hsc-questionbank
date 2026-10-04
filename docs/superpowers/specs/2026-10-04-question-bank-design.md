@@ -86,7 +86,7 @@ content/
 ### Stack
 - **Astro** static site. Interactive parts (filters, practice, mock exam, set builder, export) are small Preact islands.
 - **KaTeX** renders math at build time, so pages carry no math JavaScript.
-- **Noto Sans Bengali** for Bangla, plus a matching Latin font.
+- Visual design, fonts and tokens: see `2026-10-04-design-system.md` (exam-paper look, one green accent, no decorative chrome).
 - Search uses a small **MiniSearch** index per subject, loaded only when that subject is opened.
 - Hosted on **Cloudflare Pages** (free tier). Each chapter's JSON is a separate file, which keeps every file well under the platform's size limits.
 - **GitHub Actions** runs CI.
