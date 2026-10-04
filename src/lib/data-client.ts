@@ -1,7 +1,7 @@
 // Fetches compiled data in the browser.
 import type MiniSearch from 'minisearch';
 import { loadSearchJson, type SearchDoc } from './search';
-import type { ChapterData, Level, SubjectManifest } from './types';
+import type { ChapterData, CompiledQuestion, Level, PaperIndex, RichBi, Stimulus, SubjectManifest } from './types';
 
 export class DataLoadError extends Error {
   constructor(public url: string, public status: number) {
@@ -48,4 +48,33 @@ export function loadSearch(level: Level, subject: string): Promise<MiniSearch<Se
     searches.set(url, p);
   }
   return p;
+}
+
+export interface Pool {
+  questions: CompiledQuestion[];
+  /** Keyed `${chapter}/${stimulusId}`. */
+  stimuli: Map<string, Stimulus<RichBi>>;
+  manifest: SubjectManifest;
+}
+
+/** Loads the questions a set is drawn from: the given chapters, or every chapter with questions. */
+export async function loadPool(level: Level, subject: string, chapters: string[]): Promise<Pool> {
+  const manifest = await loadManifest(level, subject);
+  const known = manifest.chapters.filter((c) => c.counts.mcq + c.counts.cq > 0).map((c) => c.slug);
+  const wanted = chapters.length ? chapters.filter((c) => known.includes(c)) : known;
+  const data = await Promise.all(wanted.map((c) => loadChapter(level, subject, c)));
+  const stimuli = new Map<string, Stimulus<RichBi>>();
+  for (const ch of data) for (const [id, s] of Object.entries(ch.stimuli)) stimuli.set(`${ch.chapter}/${id}`, s);
+  return { questions: data.flatMap((c) => c.questions), stimuli, manifest };
+}
+
+let papers: Promise<PaperIndex[]> | null = null;
+
+/** Every published board and admission paper. */
+export function loadPapers(): Promise<PaperIndex[]> {
+  if (!papers) {
+    papers = get('/data/papers.json').then((r) => r.json() as Promise<PaperIndex[]>);
+    papers.catch(() => (papers = null));
+  }
+  return papers;
 }

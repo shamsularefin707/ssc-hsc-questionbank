@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import { UI, digits } from '../../lib/labels';
+import { readManifests } from '../../lib/site-data';
+
+const manifests = readManifests();
+const levels = [
+  { id: 'ssc', bn: 'এসএসসি', en: 'SSC' },
+  { id: 'hsc', bn: 'এইচএসসি', en: 'HSC' },
+] as const;
+---
+
+<Base title={`${UI.boardTitle.en} · ${UI.boardTitle.bn}`} current="board">
+  <div class="page-head">
+    <h1><span class="bn">{UI.boardTitle.bn}</span><span class="en">{UI.boardTitle.en}</span></h1>
+    <p><span class="bn">{UI.boardIntro.bn}</span><span class="en">{UI.boardIntro.en}</span></p>
+  </div>
+  <div class="levels">
+    {
+      levels.map((lv) => {
+        const subjects = manifests.filter((m) => m.level === lv.id);
+        return (
+          <section class="level" aria-labelledby={`board-${lv.id}`}>
+            <h2 id={`board-${lv.id}`}>
+              <span class="bn">{lv.bn}</span>
+              <span class="en">{lv.en}</span>
+            </h2>
+            <ul class="subject-list">
+              {subjects.length ? (
+                subjects.map((m) => {
+                  const n = m.papers.filter((p) => p.source.kind === 'board').length;
+                  return (
+                    <li>
+                      <a class="subject-row" href={`/board/${m.level}/${m.subject}`}>
+                        <span class="name">
+                          <span class="bn">{m.title.bn}</span>
+                          <span class="en">{m.title.en}</span>
+                        </span>
+                        <span class="meta">
+                          <span class="bn">{n ? `${digits(n, 'bn')}${UI.papers.bn}` : UI.comingSoon.bn}</span>
+                          <span class="en">{n ? `${n}${UI.papers.en}` : UI.comingSoon.en}</span>
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })
+              ) : (
+                <li class="subject-row">
+                  <span class="meta">
+                    <span class="bn">এইচএসসির বিষয়গুলো শীঘ্রই যোগ হবে।</span>
+                    <span class="en">HSC subjects are being added.</span>
+                  </span>
+                </li>
+              )}
+            </ul>
+          </section>
+        );
+      })
+    }
+  </div>
+</Base>

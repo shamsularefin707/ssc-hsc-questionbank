@@ -1,0 +1,25 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { SetBuilder } from '../../../components/SetBuilder';
+import { readManifests } from '../../../lib/site-data';
+import { UI } from '../../../lib/labels';
+import type { SubjectManifest } from '../../../lib/types';
+
+export function getStaticPaths() {
+  return readManifests().map((m) => ({ params: { level: m.level, subject: m.subject }, props: { manifest: m } }));
+}
+
+const { manifest } = Astro.props as { manifest: SubjectManifest };
+const level = manifest.level === 'ssc' ? { bn: 'এসএসসি', en: 'SSC' } : { bn: 'এইচএসসি', en: 'HSC' };
+---
+
+<Base title={`${UI.buildTitle.en}: ${level.en} ${manifest.title.en} · ${UI.buildTitle.bn}`} current="build">
+  <div class="page-head">
+    <h1>
+      <span class="bn">{UI.buildTitle.bn}: {level.bn} {manifest.title.bn}</span>
+      <span class="en">{UI.buildTitle.en}: {level.en} {manifest.title.en}</span>
+    </h1>
+    <p><span class="bn">{UI.buildIntro.bn}</span><span class="en">{UI.buildIntro.en}</span></p>
+  </div>
+  <SetBuilder client:load manifest={manifest} />
+</Base>

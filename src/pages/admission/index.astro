@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import { ADMISSION_CATEGORY, UI, digits } from '../../lib/labels';
+import { readManifests } from '../../lib/site-data';
+
+const papers = readManifests().flatMap((m) => m.papers).filter((p) => p.source.kind === 'admission');
+const categories = Object.keys(ADMISSION_CATEGORY) as (keyof typeof ADMISSION_CATEGORY)[];
+---
+
+<Base title={`${UI.admissionTitle.en} · ${UI.admissionTitle.bn}`} current="admission">
+  <div class="page-head">
+    <h1><span class="bn">{UI.admissionTitle.bn}</span><span class="en">{UI.admissionTitle.en}</span></h1>
+    <p><span class="bn">{UI.admissionIntro.bn}</span><span class="en">{UI.admissionIntro.en}</span></p>
+  </div>
+  <ul class="subject-list">
+    {
+      categories.map((c) => {
+        const n = papers.filter((p) => p.source.kind === 'admission' && p.source.category === c).length;
+        return (
+          <li>
+            <a class="subject-row" href={`/admission/${c}`}>
+              <span class="name">
+                <span class="bn">{ADMISSION_CATEGORY[c].bn}</span>
+                <span class="en">{ADMISSION_CATEGORY[c].en}</span>
+              </span>
+              <span class="meta">
+                <span class="bn">{n ? `${digits(n, 'bn')}${UI.papers.bn}` : UI.comingSoon.bn}</span>
+                <span class="en">{n ? `${n}${UI.papers.en}` : UI.comingSoon.en}</span>
+              </span>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</Base>

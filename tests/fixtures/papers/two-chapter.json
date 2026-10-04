@@ -1,0 +1,10 @@
+{
+  "id": "ssc-physics-rajshahi-2024",
+  "source": { "kind": "board", "exam": "ssc", "board": "rajshahi", "year": 2024 },
+  "level": "ssc",
+  "subject": "physics",
+  "title": { "bn": "রাজশাহী বোর্ড ২০২৪", "en": "Rajshahi Board 2024" },
+  "mcq": ["b2", "a1", "b1"],
+  "cq": ["c2"],
+  "chapterOf": { "a1": "01-a", "b1": "02-b", "b2": "02-b", "c2": "02-b" }
+}

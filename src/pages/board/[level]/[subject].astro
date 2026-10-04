@@ -1,0 +1,24 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { PaperList } from '../../../components/PaperList';
+import { UI } from '../../../lib/labels';
+import { readManifests } from '../../../lib/site-data';
+import type { SubjectManifest } from '../../../lib/types';
+
+export function getStaticPaths() {
+  return readManifests().map((m) => ({ params: { level: m.level, subject: m.subject }, props: { manifest: m } }));
+}
+
+const { manifest } = Astro.props as { manifest: SubjectManifest };
+const level = manifest.level === 'ssc' ? { bn: 'এসএসসি', en: 'SSC' } : { bn: 'এইচএসসি', en: 'HSC' };
+---
+
+<Base title={`${UI.boardTitle.en}: ${level.en} ${manifest.title.en} · ${UI.boardTitle.bn}`} current="board">
+  <div class="page-head">
+    <h1>
+      <span class="bn">{UI.boardTitle.bn}: {level.bn} {manifest.title.bn}</span>
+      <span class="en">{UI.boardTitle.en}: {level.en} {manifest.title.en}</span>
+    </h1>
+  </div>
+  <PaperList client:load papers={manifest.papers} />
+</Base>

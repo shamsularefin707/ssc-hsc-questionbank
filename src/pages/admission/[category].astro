@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import { ADMISSION_CATEGORY, UI, digits } from '../../lib/labels';
+import { groupAdmission } from '../../lib/papers';
+import { readManifests } from '../../lib/site-data';
+
+type Category = keyof typeof ADMISSION_CATEGORY;
+export function getStaticPaths() {
+  return (Object.keys(ADMISSION_CATEGORY) as Category[]).map((category) => ({ params: { category } }));
+}
+
+const category = Astro.params.category as Category;
+const manifests = readManifests();
+const groups = groupAdmission(manifests.flatMap((m) => m.papers), category);
+const subjectTitle = (level: string, subject: string) => manifests.find((m) => m.level === level && m.subject === subject)?.title;
+const title = ADMISSION_CATEGORY[category];
+---
+
+<Base title={`${title.en} · ${title.bn}`} current="admission">
+  <div class="page-head">
+    <h1><span class="bn">{title.bn}</span><span class="en">{title.en}</span></h1>
+  </div>
+  {
+    groups.length === 0 ? (
+      <div class="state">
+        <h2>
+          <span class="bn">{UI.admissionEmpty.bn}</span>
+          <span class="en">{UI.admissionEmpty.en}</span>
+        </h2>
+      </div>
+    ) : (
+      groups.map((g) => (
+        <section class="paper-group">
+          <h2>{g.institution.toUpperCase()}</h2>
+          <ul class="subject-list">
+            {g.papers.map((p) => {
+              const s = p.source.kind === 'admission' ? p.source : null;
+              const subj = subjectTitle(p.level, p.subject);
+              return (
+                <li>
+                  <a class="subject-row" href={`/paper?id=${p.id}`}>
+                    <span class="name">
+                      <span class="bn">{s?.session}{s?.unit ? ` · ${s.unit}` : ''} · {subj?.bn}</span>
+                      <span class="en">{s?.session}{s?.unit ? ` · ${s.unit}` : ''} · {subj?.en}</span>
+                    </span>
+                    <span class="meta">
+                      <span class="bn">{digits(p.mcq.length, 'bn')} MCQ</span>
+                      <span class="en">{p.mcq.length} MCQ</span>
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))
+    )
+  }
+</Base>

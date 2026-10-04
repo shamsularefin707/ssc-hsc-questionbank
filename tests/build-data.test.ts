@@ -59,3 +59,8 @@ describe('shared-stimulus sets publish whole or not at all', () => {
     expect(out.manifests[0].chapters[0].counts.mcq).toBe(1);
   });
 });
+
+test('compiled papers record the chapter of every question', () => {
+  const out = compileAll(deriveContent(readContentFiles(FIXTURE)), { showDrafts: false });
+  expect(out.papers[0].chapterOf).toEqual({ 't-mcq-1': '01-test' });
+});

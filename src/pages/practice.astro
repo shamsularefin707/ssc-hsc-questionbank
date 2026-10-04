@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { Practice } from '../components/Practice';
+import { UI } from '../lib/labels';
+---
+
+<Base title={`${UI.practiceTitle.en} · ${UI.practiceTitle.bn}`}>
+  <div class="page-head narrow">
+    <h1><span class="bn">{UI.practiceTitle.bn}</span><span class="en">{UI.practiceTitle.en}</span></h1>
+  </div>
+  <div class="narrow">
+    <Practice client:load />
+  </div>
+</Base>

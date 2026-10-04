@@ -5,7 +5,7 @@ import { DIFFICULTY, KIND, MCQ_TYPE, SOURCE_KIND, UI, digits } from '../lib/labe
 import { useLang } from '../lib/lang';
 import { decodeFilters, encodeFilters, normalizeFilters } from '../lib/url-state';
 import type { Bi, ChapterData, CompiledQuestion, Lang, SubjectManifest } from '../lib/types';
-import { FilterChip } from './FilterChip';
+import { ChipSection } from './FilterChip';
 import { Icon } from './Icon';
 import { QuestionCard, StimulusGroup, type CardContext } from './QuestionCard';
 
@@ -327,19 +327,3 @@ export function QuestionBank({ manifest }: { manifest: SubjectManifest }) {
     </div>
   );
 }
-
-function ChipSection<K extends string>({ title, options, selected, onToggle, lang }: { title: string; options: Record<K, Bi>; selected?: K[]; onToggle: (v: K) => void; lang: Lang }) {
-  return (
-    <div class="filter-section" role="group" aria-label={title}>
-      <h3>{title}</h3>
-      <div class="chips">
-        {(Object.keys(options) as K[]).map((k) => (
-          <FilterChip key={k} pressed={!!selected?.includes(k)} onToggle={() => onToggle(k)}>
-            {options[k][lang]}
-          </FilterChip>
-        ))}
-      </div>
-    </div>
-  );
-}
-

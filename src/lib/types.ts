@@ -100,6 +100,8 @@ export interface PaperIndex {
   title: Bi;
   mcq: string[];
   cq: string[];
+  /** Question id → chapter slug. Added by the data build; absent in the YAML. */
+  chapterOf?: Record<string, string>;
 }
 
 export interface SubjectManifest {
