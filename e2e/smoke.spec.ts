@@ -4,6 +4,8 @@ test('browse, filter, reveal a solution and switch language', async ({ page }) =
   await page.goto('/');
   await page.getByRole('link', { name: /পদার্থবিজ্ঞান/ }).first().click();
   await expect(page).toHaveURL(/\/ssc\/physics\/$/);
+  // Clicks before the filters hydrate are lost; Astro drops [ssr] once an island is live.
+  await expect(page.locator('astro-island:not([ssr]) .filters')).toBeAttached();
   await page.locator('.filters').getByText('২. গতি').click();
   await page.locator('.filters').getByRole('button', { name: 'সহজ' }).click();
   await expect(page).toHaveURL(/chapters=02-motion/);
@@ -26,10 +28,12 @@ test('browse, filter, reveal a solution and switch language', async ({ page }) =
 
 test('build a 5-MCQ set and open its print view', async ({ page }) => {
   await page.goto('/ssc/physics/build');
+  await expect(page.locator('astro-island:not([ssr]) .builder-form')).toBeAttached();
   const mcq = page.getByLabel('MCQ সংখ্যা');
   await mcq.fill('5');
   await page.getByRole('button', { name: 'সেট তৈরি করুন' }).click();
-  await expect(page.locator('.card')).toHaveCount(5);
+  // A shared-stimulus pair renders as one card, so count questions, not cards.
+  await expect(page.locator('.cards ol.options')).toHaveCount(5);
   await expect(page).toHaveURL(/mcq=5/);
 
   await page.getByRole('link', { name: 'প্রিন্ট / PDF' }).click();
