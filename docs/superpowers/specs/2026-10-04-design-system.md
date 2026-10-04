@@ -39,11 +39,11 @@ Three layers in `src/styles/tokens.css`: primitive → semantic → component. C
 --red-700:   #A4262C   --red-100:   #F8E5E4
 --amber-700: #8A5A00   --amber-100: #FBF0D9
 --paper-0:   #FFFFFF   --paper-50:  #FBFAF7   --paper-100: #F4F2EC
---ink-200:   #DEDAD0   --ink-300:   #C8C3B6   --ink-500:   #77726A
+--ink-200:   #DEDAD0   --ink-300:   #C8C3B6   --ink-400:   #8C877D   --ink-500:   #6B665E
 --ink-700:   #45413B   --ink-900:   #1C1A17
 /* dark */
 --night-900: #141311   --night-800: #1D1C19   --night-700: #282622
---night-500: #4A4741   --night-300: #9A958B   --night-100: #EDEAE3
+--night-500: #4A4741   --night-400: #6E6A62   --night-300: #9A958B   --night-100: #EDEAE3
 --green-300: #5FBF98   --red-300:   #F08A8F   --amber-300: #E8B95A
 ```
 
@@ -54,7 +54,7 @@ Three layers in `src/styles/tokens.css`: primitive → semantic → component. C
 | `--surface` | paper-0 | night-800 |
 | `--surface-sunken` | paper-100 | night-900 |
 | `--border` | ink-200 | night-700 |
-| `--border-strong` | ink-300 | night-500 |
+| `--border-strong` | ink-400 | night-400 |
 | `--text` | ink-900 | night-100 |
 | `--text-muted` | ink-500 | night-300 |
 | `--accent` | green-600 | green-300 |
