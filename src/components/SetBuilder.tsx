@@ -6,6 +6,7 @@ import { useLang } from '../lib/lang';
 import { randomSeed } from '../lib/rng';
 import { buildSet, decodeSet, encodeSet, type QuestionSet, type SetRequest } from '../lib/set-builder';
 import type { Bi, Difficulty, McqType, SubjectManifest } from '../lib/types';
+import { ExportWordButton } from './ExportWordButton';
 import { ChipSection } from './FilterChip';
 import { QuestionList, type CardContext } from './QuestionCard';
 
@@ -125,6 +126,7 @@ export function SetBuilder({ manifest }: { manifest: SubjectManifest }) {
           <a class="btn" href={`/print${query}`}>
             {UI.printPdf[lang]}
           </a>
+          <ExportWordButton set={set} pool={pool!} lang={lang} />
         </div>
         {set.shortfall && (
           <p class="notice" role="status">

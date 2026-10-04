@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import { PrintView } from '../components/PrintView';
+import { UI } from '../lib/labels';
+---
+
+<Base title={`${UI.printPdf.en} · ${UI.printPdf.bn}`}>
+  <PrintView client:load />
+</Base>

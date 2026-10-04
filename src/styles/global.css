@@ -873,3 +873,138 @@ a.subject-row:hover {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
+
+/* ---------- Print view ---------- */
+.print-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  max-width: 210mm;
+  margin: 0 auto var(--s-4);
+}
+.print-toolbar .hint {
+  flex-basis: 100%;
+  margin: 0;
+}
+.paper {
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 15mm;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: var(--t-md);
+  line-height: 1.75;
+}
+.paper-head {
+  text-align: center;
+  margin-bottom: var(--s-5);
+}
+.paper-head h1 {
+  font-size: var(--t-xl);
+  margin: 0;
+}
+.paper-head p {
+  margin: var(--s-1) 0 0;
+}
+.paper h2 {
+  font-size: var(--t-lg);
+  margin: var(--s-5) 0 var(--s-3);
+  padding-bottom: var(--s-1);
+  border-bottom: 1px solid var(--border);
+}
+.paper h3 {
+  font-size: var(--t-md);
+  margin: var(--s-4) 0 var(--s-2);
+}
+.paper-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.paper-q {
+  break-inside: avoid;
+  margin-bottom: var(--s-3);
+}
+.paper-row {
+  display: grid;
+  grid-template-columns: 2.5em 1fr;
+}
+.paper-num {
+  font-variant-numeric: tabular-nums;
+}
+.paper-sub {
+  margin-left: var(--s-4);
+}
+.paper-part {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+.paper-marks {
+  white-space: nowrap;
+}
+.paper-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--s-5);
+  margin-left: var(--s-4);
+}
+.paper-stimulus {
+  margin-bottom: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--border);
+}
+.paper-fig {
+  display: block;
+  max-width: 320px;
+  margin: var(--s-2) 0;
+}
+.paper-expl {
+  font-size: var(--t-sm);
+}
+.answer-sheet {
+  break-before: page;
+}
+
+@page {
+  size: A4;
+  margin: 15mm;
+}
+@media print {
+  .site-header,
+  .skip-link,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: none;
+    color: black;
+  }
+  main {
+    padding: 0;
+  }
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+  .paper {
+    max-width: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: black;
+  }
+  .paper h2,
+  .paper-stimulus {
+    border-color: black;
+  }
+  .paper h2,
+  .paper h3 {
+    break-after: avoid;
+  }
+}
+.paper .katex {
+  font-size: 1.05em;
+}
