@@ -1,0 +1,7 @@
+id: ssc-physics-dhaka-2023
+source: { kind: board, exam: ssc, board: dhaka, year: 2023 }
+level: ssc
+subject: physics
+title: { bn: ঢাকা বোর্ড ২০২৩, en: Dhaka Board 2023 }
+mcq: [t-mcq-1]
+cq: []

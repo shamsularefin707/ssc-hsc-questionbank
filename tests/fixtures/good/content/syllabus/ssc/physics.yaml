@@ -1,0 +1,10 @@
+level: ssc
+subject: physics
+title: { bn: পদার্থবিজ্ঞান, en: Physics }
+chapters:
+  - slug: 01-test
+    number: 1
+    title: { bn: পরীক্ষা, en: Test }
+    topics:
+      - { slug: alpha, title: { bn: আলফা, en: Alpha } }
+      - { slug: beta, title: { bn: বিটা, en: Beta } }

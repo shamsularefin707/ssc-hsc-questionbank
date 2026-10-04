@@ -1,0 +1,17 @@
+level: ssc
+subject: physics
+chapter: 01-test
+questions:
+  - id: t-cq-1
+    topics: [alpha, beta]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    figures:
+      - { file: figures/f.svg, alt: { bn: চিত্র, en: Figure } }
+    stimulus: { bn: উদ্দীপক, en: A completely different stimulus about something else }
+    parts:
+      ka: { question: { bn: ক, en: a }, solution: { bn: ক, en: a } }
+      kha: { question: { bn: খ, en: b }, solution: { bn: খ, en: b } }
+      ga: { question: { bn: গ, en: c }, solution: { bn: গ, en: c } }
+      gha: { question: { bn: ঘ, en: d }, solution: { bn: ঘ, en: d } }

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "validate": "echo \"validator arrives in Task 3\"",
+    "validate": "tsx scripts/validate.ts",
     "build:data": "echo \"data compile arrives in Task 4\"",
     "build": "npm run validate && npm run build:data && astro build",
     "preview": "astro preview",
