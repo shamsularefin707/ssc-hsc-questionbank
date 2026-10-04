@@ -1,0 +1,9 @@
+// Cloudflare Workers deploy for the static site: wrangler runs the build,
+// then uploads dist/ as static assets. No Worker code and no Astro adapter.
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "ssc-hsc-questionbank",
+  "compatibility_date": "2026-10-01",
+  "build": { "command": "npm run build" },
+  "assets": { "directory": "./dist" }
+}

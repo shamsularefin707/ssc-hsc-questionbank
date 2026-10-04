@@ -38,14 +38,12 @@ content/
 
 Every text field has `bn` and `en`; math goes between `$…$` as LaTeX. Only questions with `status: reviewed` are published (set `SHOW_DRAFTS=1` to also show `checked` ones). The JSON schemas in `schema/` and `npm run validate` enforce the format. Board and admission questions must carry a matching `source`.
 
-## Deploying to Cloudflare Pages (free)
+## Deploying to Cloudflare (free)
 
 Connecting the repository needs the owner's Cloudflare account, so this is a one-time manual step:
 
-1. Sign in at dash.cloudflare.com, then go to **Workers & Pages → Create → Pages → Connect to Git** and pick this repository.
-2. Use these build settings:
-   - Framework preset: **Astro**
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-   - Environment variable: `NODE_VERSION` = `22`
-3. Save and deploy. Every push to `main` then redeploys the site, and every pull request gets its own preview link.
+1. Sign in at dash.cloudflare.com, then go to **Workers & Pages → Create → Import a repository** and pick this repository.
+2. Keep the deploy command as `npx wrangler deploy`. `wrangler.jsonc` tells it to run `npm run build` and upload `dist/` as a static site, so no other build settings are needed.
+3. Save and deploy. Every push to `main` then redeploys the site.
+
+Don't let Cloudflare run `astro add cloudflare`: the site is fully static and doesn't use the Cloudflare adapter.
