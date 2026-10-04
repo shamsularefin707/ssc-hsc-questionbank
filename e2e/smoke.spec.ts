@@ -29,7 +29,8 @@ test('build a 5-MCQ set and open its print view', async ({ page }) => {
   const mcq = page.getByLabel('MCQ সংখ্যা');
   await mcq.fill('5');
   await page.getByRole('button', { name: 'সেট তৈরি করুন' }).click();
-  await expect(page.locator('.card')).toHaveCount(5);
+  // A shared-stimulus pair renders as one card, so count questions, not cards.
+  await expect(page.locator('.cards ol.options')).toHaveCount(5);
   await expect(page).toHaveURL(/mcq=5/);
 
   await page.getByRole('link', { name: 'প্রিন্ট / PDF' }).click();
