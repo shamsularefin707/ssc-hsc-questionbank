@@ -61,3 +61,9 @@ export function toggleBookmark(id: string): boolean {
 export function pushResult(r: PracticeResult): void {
   storage.set(RESULTS, [r, ...storage.get<PracticeResult[]>(RESULTS, [])].slice(0, MAX_RESULTS));
 }
+
+/** Saves a result, replacing any earlier one with the same setKey (used for mocks whose CQ marks change). */
+export function upsertResult(r: PracticeResult): void {
+  const rest = storage.get<PracticeResult[]>(RESULTS, []).filter((x) => x.setKey !== r.setKey);
+  storage.set(RESULTS, [r, ...rest].slice(0, MAX_RESULTS));
+}

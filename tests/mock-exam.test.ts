@@ -65,3 +65,17 @@ describe('mock exam scoring', () => {
     expect(cqScore(s)).toBe(1 + 2 + 2);
   });
 });
+
+describe('isMockState', () => {
+  test('accepts a real state and rejects malformed ones', async () => {
+    const { isMockState } = await import('../src/lib/mock-exam');
+    const s = createMock('ssc', 'physics', [], 1, T0);
+    expect(isMockState(JSON.parse(JSON.stringify(s)))).toBe(true);
+    expect(isMockState(advance(s, T0 + 10))).toBe(true);
+    expect(isMockState(null)).toBe(false);
+    expect(isMockState({ ...s, cqChosen: undefined })).toBe(false);
+    expect(isMockState({ ...s, phase: 'weird' })).toBe(false);
+    expect(isMockState({ ...s, startedAt: 'yesterday' })).toBe(false);
+    expect(isMockState({ ...s, mcqAnswers: null })).toBe(false);
+  });
+});

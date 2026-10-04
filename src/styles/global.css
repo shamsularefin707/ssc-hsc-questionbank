@@ -1040,3 +1040,16 @@ a.subject-row:hover {
     padding-bottom: var(--s-3);
   }
 }
+.phase-head:focus {
+  outline: none;
+}
+.phase-head:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.pick-late {
+  margin-bottom: var(--s-4);
+}
+.pick-late p {
+  margin: 0 0 var(--s-2);
+}

@@ -59,3 +59,29 @@ describe('buildDocx', () => {
     expect(docxFileName(set)).toBe('physics-set-7.docx');
   });
 });
+
+describe('docx text and figures', () => {
+  const multi: QuestionSet = { ...set, mcqs: [], cqs: [{ ...cq('c9'), parts: { ...cq('c9').parts, ka: { question: toRich({ bn: 'প্রশ্ন', en: 'Q' }), solution: toRich({ bn: 'ক\nখ', en: 'line one\nline two' }) } } }] };
+  test('newlines become line breaks, not spaces', async () => {
+    const buf = await Packer.toBuffer(buildDocx(multi, 'en', 'T'));
+    const x = await (await JSZip.loadAsync(buf)).file('word/document.xml')!.async('string');
+    expect(x).not.toMatch(/line one\nline two/);
+    expect(x).toMatch(/line one<\/w:t><\/w:r><w:r>(<w:rPr>.*?<\/w:rPr>)?<w:br\/><w:t[^>]*>line two/);
+  });
+
+  const withFig: QuestionSet = { ...set, mcqs: [{ ...mcq('f1'), figures: [{ file: '/data/x/graph.svg', alt: { bn: 'লেখচিত্র', en: 'velocity-time graph' } }] }], cqs: [] };
+  test('a figure without image data becomes a labelled placeholder', async () => {
+    const buf = await Packer.toBuffer(buildDocx(withFig, 'en', 'T'));
+    const x = await (await JSZip.loadAsync(buf)).file('word/document.xml')!.async('string');
+    expect(text(x)).toContain('[Figure: velocity-time graph]');
+  });
+
+  test('a figure with image data is embedded as a picture', async () => {
+    const png = Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='), (c) => c.charCodeAt(0));
+    const images = new Map([['/data/x/graph.svg', { data: png, width: 400, height: 300 }]]);
+    const zip = await JSZip.loadAsync(await Packer.toBuffer(buildDocx(withFig, 'en', 'T', stimuli, images)));
+    const x = await zip.file('word/document.xml')!.async('string');
+    expect(x).toContain('<w:drawing>');
+    expect(Object.keys(zip.files).some((f) => f.startsWith('word/media/'))).toBe(true);
+  });
+});

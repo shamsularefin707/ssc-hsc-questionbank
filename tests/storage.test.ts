@@ -60,3 +60,13 @@ describe('practice helpers', () => {
     expect(rs[0].at).toBe(54);
   });
 });
+
+test('upsertResult replaces the entry with the same setKey and moves it to the front', async () => {
+  const { upsertResult } = await import('../src/lib/storage');
+  vi.stubGlobal('localStorage', memoryStorage());
+  upsertResult({ at: 1, setKey: 'mock:a', correct: 3, total: 75 });
+  pushResult({ at: 2, setKey: 'x', correct: 1, total: 2 });
+  upsertResult({ at: 3, setKey: 'mock:a', correct: 9, total: 75 });
+  const rs = storage.get<PracticeResult[]>('qb:results', []);
+  expect(rs.map((r) => [r.setKey, r.correct])).toEqual([['mock:a', 9], ['x', 1]]);
+});

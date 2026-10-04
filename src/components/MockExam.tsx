@@ -3,10 +3,11 @@ import { CQ_MARKS, CQ_PARTS, LABELS } from '../lib/copy-text';
 import { DataLoadError, loadPapers, loadPool, type Pool } from '../lib/data-client';
 import { UI, digits } from '../lib/labels';
 import { useLang } from '../lib/lang';
-import { MOCK, MOCK_CURRENT, advance, cqScore, createMock, createMockFromPaper, mockKey, remainingSeconds, scoreMcq, toggleCq, type MockState } from '../lib/mock-exam';
+import { MOCK, MOCK_CURRENT, advance, cqScore, createMock, createMockFromPaper, isMockState, mockKey, remainingSeconds, scoreMcq, toggleCq, type MockState } from '../lib/mock-exam';
 import { randomSeed } from '../lib/rng';
 import { buildSet } from '../lib/set-builder';
-import { storage } from '../lib/storage';
+import { stimulusLeaders } from '../lib/practice';
+import { storage, upsertResult } from '../lib/storage';
 import type { Cq, Lang, Mcq, PaperIndex, RichBi, SubjectManifest } from '../lib/types';
 import { McqCard } from './Practice';
 import { CqBody } from './QuestionCard';
@@ -34,8 +35,13 @@ function mockQuestions(pool: Pool, state: MockState, paper?: PaperIndex): { mcqs
 }
 
 function loadSaved(): MockState | null {
-  const id = storage.get<string | null>(MOCK_CURRENT, null);
-  return id ? storage.get<MockState | null>(mockKey(id), null) : null;
+  const id = storage.get<unknown>(MOCK_CURRENT, null);
+  if (typeof id !== 'string') return null;
+  const s = storage.get<unknown>(mockKey(id), null);
+  if (isMockState(s)) return s;
+  storage.remove(mockKey(id)); // from an older version or edited by hand: start fresh instead of crashing
+  storage.remove(MOCK_CURRENT);
+  return null;
 }
 
 export function MockExam({ manifest }: { manifest: SubjectManifest }) {
@@ -51,6 +57,8 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
   const [announce, setAnnounce] = useState('');
   const warned = useRef(false);
   const topRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLHeadingElement>(null);
+  const focusHead = useRef(false);
 
   // Resume a saved mock for this subject (and this paper, if any).
   // ?paper=id runs a board or admission paper; otherwise the student picks chapters.
@@ -106,15 +114,31 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
     if (!state || state.phase === 'done') return;
     if (left === 0) {
       warned.current = false;
+      setAnnounce(state.phase === 'mcq' ? UI.timeUpCq[lang] : UI.timeUpDone[lang]);
+      focusHead.current = true;
       update(advance(state, Date.now()));
-      topRef.current?.scrollIntoView();
     } else if (left <= 300 && !warned.current) {
       warned.current = true;
-      setAnnounce(UI.fiveMinutes[lang]);
+      setAnnounce(state.phase === 'mcq' ? UI.fiveMinutesMcq[lang] : UI.fiveMinutesCq[lang]);
     } else if (left > 300) warned.current = false;
   }, [left, state?.phase]);
 
+  // After a phase change, move keyboard focus to the new section's heading.
+  useEffect(() => {
+    if (!focusHead.current) return;
+    focusHead.current = false;
+    headRef.current?.focus();
+    topRef.current?.scrollIntoView();
+  }, [state?.phase]);
+
   const qs = useMemo(() => (pool && state ? mockQuestions(pool, state, paper) : null), [pool, state?.id]);
+
+  // Keep the finished mock in the results history; CQ self-marks update the same entry.
+  useEffect(() => {
+    if (!state || state.phase !== 'done' || !qs) return;
+    const cqMax = Math.min(MOCK.cqToAnswer, qs.cqs.length) * 10;
+    upsertResult({ at: state.finishedAt ?? Date.now(), setKey: `mock:${state.id}`, correct: scoreMcq(state, qs.mcqs).correct + cqScore(state), total: qs.mcqs.length + cqMax });
+  }, [state, qs]);
 
   const start = () => {
     const at = Date.now();
@@ -123,9 +147,10 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
     update(paper ? createMockFromPaper(paper, at) : createMock(manifest.level, manifest.subject, chapters, randomSeed(), at));
   };
   const finishPhase = () => {
+    setAnnounce(state!.phase === 'mcq' ? UI.cqStarted[lang] : UI.resultReady[lang]);
+    focusHead.current = true;
     update(advance(state!, Date.now()));
     setNow(Date.now());
-    topRef.current?.scrollIntoView();
   };
   const reset = () => {
     if (state) storage.remove(mockKey(state.id));
@@ -209,6 +234,18 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
   const { mcqs, cqs } = qs;
   const stimulusOf = (q: Mcq<RichBi>) => (q.stimulus_id ? pool!.stimuli.get(`${q.chapter}/${q.stimulus_id}`) : undefined);
   const L = LABELS[lang].options;
+  const leaders = stimulusLeaders(mcqs);
+  const listStimulus = (q: Mcq<RichBi>) => (leaders.has(q.id) ? stimulusOf(q) : undefined);
+  const live = (
+    <p class="visually-hidden" aria-live="polite">
+      {announce}
+    </p>
+  );
+  const sectionHead = (text: string) => (
+    <h2 class="section-title phase-head" tabIndex={-1} ref={headRef}>
+      {text}
+    </h2>
+  );
 
   const timer = state.phase !== 'done' && (
     <div class="timer-bar" role="timer" aria-label={UI.timeLeft[lang]}>
@@ -216,9 +253,6 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
       <span class="time" data-warn={left <= 300}>
         <span class="visually-hidden">{UI.timeLeft[lang]}: </span>
         {clock(left, lang)}
-      </span>
-      <span class="visually-hidden" aria-live="polite">
-        {announce}
       </span>
     </div>
   );
@@ -228,9 +262,11 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
     return (
       <div class="mock" ref={topRef}>
         {timer}
+        {live}
+        {sectionHead(UI.mcqSection[lang])}
         <div class="cards">
           {mcqs.map((q, i) => (
-            <McqCard key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={stimulusOf(q)} chosen={state.mcqAnswers[q.id]} onChoose={(c) => update({ ...state, mcqAnswers: { ...state.mcqAnswers, [q.id]: c } })} lang={lang} mode="exam" />
+            <McqCard key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={listStimulus(q)} chosen={state.mcqAnswers[q.id]} onChoose={(c) => update({ ...state, mcqAnswers: { ...state.mcqAnswers, [q.id]: c } })} lang={lang} mode="exam" />
           ))}
         </div>
         <div class="mock-foot">
@@ -249,6 +285,8 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
     return (
       <div class="mock" ref={topRef}>
         {timer}
+        {live}
+        {sectionHead(UI.cqSection[lang])}
         <p class="summary" aria-live="polite">
           {lang === 'bn' ? `${digits(state.cqChosen.length, 'bn')}${UI.cqChosenCount.bn}` : `${state.cqChosen.length}${UI.cqChosenCount.en}`}
         </p>
@@ -288,8 +326,11 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
   const chosen = cqs.filter((q) => state.cqChosen.includes(q.id));
   return (
     <div class="mock" ref={topRef}>
+      {live}
       <section class="state result">
-        <h2>{UI.mockResult[lang]}</h2>
+        <h2 class="phase-head" tabIndex={-1} ref={headRef}>
+          {UI.mockResult[lang]}
+        </h2>
         <dl class="result-grid">
           <div>
             <dt>{UI.mcqScore[lang]}</dt>
@@ -317,6 +358,26 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
 
       <h2 class="section-title">{UI.yourCqs[lang]}</h2>
       {chosen.length === 0 && <p class="hint">{UI.noCqChosen[lang]}</p>}
+      {chosen.length < Math.min(MOCK.cqToAnswer, cqs.length) && (
+        <div class="panel filter-section pick-late">
+          <p>{UI.pickAnswered[lang]}</p>
+          <ul class="check-list">
+            {cqs.map((q, i) => {
+              const on = state.cqChosen.includes(q.id);
+              return (
+                <li key={q.id}>
+                  <label class="check">
+                    <input type="checkbox" checked={on} disabled={!on && chosen.length >= MOCK.cqToAnswer} onChange={() => update(toggleCq(state, q.id))} />
+                    <span>
+                      {digits(i + 1, lang)}. {(lang === 'bn' ? q.stimulus.bn : q.stimulus.en).replace(/\$[^$]*\$/g, '…').slice(0, 90)}
+                    </span>
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
       <div class="cards">
         {chosen.map((q) => (
           <article class="card" key={q.id} lang={lang}>
@@ -353,7 +414,7 @@ export function MockExam({ manifest }: { manifest: SubjectManifest }) {
       <h2 class="section-title">{UI.mcqReview[lang]}</h2>
       <div class="cards">
         {mcqs.map((q, i) => (
-          <McqCard key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={stimulusOf(q)} chosen={state.mcqAnswers[q.id]} lang={lang} mode="review" />
+          <McqCard key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={listStimulus(q)} chosen={state.mcqAnswers[q.id]} lang={lang} mode="review" />
         ))}
       </div>
     </div>

@@ -55,6 +55,7 @@ export function PrintView() {
                     {st && (
                       <div class="paper-stimulus">
                         <strong>{L.stimulus}:</strong> <span dangerouslySetInnerHTML={html(st.text, lang)} />
+                        {st.figures?.map((f) => <img key={f.file} class="paper-fig" src={f.file} alt={f.alt[lang]} />)}
                       </div>
                     )}
                     <div class="paper-row">

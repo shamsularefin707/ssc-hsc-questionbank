@@ -80,3 +80,23 @@ export function cqScore(s: MockState): number {
 
 export const mockKey = (id: string) => `qb:mock:${id}`;
 export const MOCK_CURRENT = 'qb:mock:current';
+
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
+
+/** Guards a mock read back from storage, which may be from an older version or edited by hand. */
+export function isMockState(v: unknown): v is MockState {
+  if (!isRecord(v)) return false;
+  return (
+    typeof v.id === 'string' &&
+    (v.level === 'ssc' || v.level === 'hsc') &&
+    typeof v.subject === 'string' &&
+    Array.isArray(v.chapters) &&
+    typeof v.seed === 'number' &&
+    typeof v.startedAt === 'number' &&
+    (v.cqStartedAt === undefined || typeof v.cqStartedAt === 'number') &&
+    (v.phase === 'mcq' || v.phase === 'cq' || v.phase === 'done') &&
+    isRecord(v.mcqAnswers) &&
+    Array.isArray(v.cqChosen) &&
+    isRecord(v.cqSelfMarks)
+  );
+}

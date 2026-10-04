@@ -16,3 +16,9 @@ test('answers for questions outside the set are ignored', () => {
 test('an empty set is never done', () => {
   expect(scorePractice([], {}).done).toBe(false);
 });
+
+test('stimulusLeaders marks only the first question of each shared-stimulus set', async () => {
+  const { stimulusLeaders } = await import('../src/lib/practice');
+  const qs = [mcq('a'), mcq('p1', { stimulus_id: 's' }), mcq('p2', { stimulus_id: 's' }), mcq('q1', { stimulus_id: 's', chapter: '02-b' })];
+  expect([...stimulusLeaders(qs)]).toEqual(['p1', 'q1']);
+});

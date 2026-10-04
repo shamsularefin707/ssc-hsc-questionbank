@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { LABELS } from '../lib/copy-text';
 import { DIFFICULTY, MCQ_TYPE, UI, digits } from '../lib/labels';
 import { useLang } from '../lib/lang';
-import { scorePractice } from '../lib/practice';
+import { scorePractice, stimulusLeaders } from '../lib/practice';
 import { randomSeed } from '../lib/rng';
 import { encodeSet } from '../lib/set-builder';
 import { sourceHref, sourceKey, useSource } from '../lib/use-source';
@@ -128,7 +128,9 @@ export function Practice() {
 
   const stimulusOf = (q: Mcq<RichBi>) => (q.stimulus_id ? pool.stimuli.get(`${q.chapter}/${q.stimulus_id}`) : undefined);
   const choose = (id: string, i: number) => setAnswers((a) => (id in a ? a : { ...a, [id]: i }));
-  const card = (q: Mcq<RichBi>, i: number) => <McqCard key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={stimulusOf(q)} chosen={answers[q.id]} onChoose={(c) => choose(q.id, c)} lang={lang} />;
+  const leaders = stimulusLeaders(mcqs);
+  // One at a time, every question shows its stimulus; in the full list, only the first of each set.
+  const card = (q: Mcq<RichBi>, i: number) => <McqCard key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={!showAll || leaders.has(q.id) ? stimulusOf(q) : undefined} chosen={answers[q.id]} onChoose={(c) => choose(q.id, c)} lang={lang} />;
   const again = () => {
     if (source.kind === 'set') location.search = encodeSet(source.req, randomSeed());
     else location.reload();
