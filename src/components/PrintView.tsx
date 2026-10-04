@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from 'preact/hooks';
 import { CQ_MARKS, CQ_PARTS, LABELS } from '../lib/copy-text';
-import { DataLoadError, loadPool, type Pool } from '../lib/data-client';
 import { EXPORT_LABELS, fullMarks } from '../lib/export/docx-labels';
 import { UI, digits } from '../lib/labels';
 import { useLang } from '../lib/lang';
-import { buildSet, decodeSet, encodeSet, type SetRequest } from '../lib/set-builder';
+import { sourceHref, useSource } from '../lib/use-source';
+import { SourceState } from './SourceState';
 import { setTitle } from '../lib/set-title';
 import type { Lang, RichBi } from '../lib/types';
 
@@ -13,51 +12,10 @@ const html = (b: RichBi, lang: Lang) => ({ __html: lang === 'bn' ? b.bnHtml : b.
 
 export function PrintView() {
   const lang = useLang();
-  const [link, setLink] = useState<{ req: SetRequest; seed: number } | null | undefined>(undefined);
-  const [pool, setPool] = useState<Pool | null>(null);
-  const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [retry, setRetry] = useState(0);
-
-  useEffect(() => setLink(decodeSet(location.search)), []);
-  useEffect(() => {
-    if (!link) return;
-    let cancelled = false;
-    setState('loading');
-    loadPool(link.req.level, link.req.subject, link.req.chapters)
-      .then((p) => !cancelled && (setPool(p), setState('ready')))
-      .catch((e) => {
-        if (cancelled) return;
-        if (!(e instanceof DataLoadError)) console.error(e);
-        setState('error');
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [link, retry]);
-
-  const set = useMemo(() => (pool && link ? buildSet(pool.questions, link.req, link.seed) : null), [pool, link]);
-
-  if (link === undefined) return null;
-  if (link === null)
-    return (
-      <div class="state">
-        <h2>{UI.badLink[lang]}</h2>
-        <p>{UI.badLinkHint[lang]}</p>
-        <a class="btn" href="/">
-          {UI.goHome[lang]}
-        </a>
-      </div>
-    );
-  if (state === 'error')
-    return (
-      <div class="state" role="alert">
-        <h2>{UI.loadError[lang]}</h2>
-        <button type="button" class="btn" style={{ marginTop: 'var(--s-4)' }} onClick={() => setRetry((r) => r + 1)}>
-          {UI.tryAgain[lang]}
-        </button>
-      </div>
-    );
-  if (!set || !pool) return <div class="skeleton" aria-busy="true" />;
+  const src = useSource();
+  if (!src.source || src.status !== 'ready' || !src.data) return <SourceState src={src} lang={lang} />;
+  const { set, pool, paper } = src.data;
+  const title = paper ? `${paper.title[lang]} · ${pool.manifest.title[lang]}` : setTitle(pool.manifest, lang);
 
   const L = LABELS[lang];
   const E = EXPORT_LABELS[lang];
@@ -71,14 +29,14 @@ export function PrintView() {
         <button type="button" class="btn btn-primary" onClick={() => window.print()}>
           {UI.savePdf[lang]}
         </button>
-        <a class="btn" href={`/${link.req.level}/${link.req.subject}/build${encodeSet(link.req, link.seed)}`}>
-          {UI.backToSet[lang]}
+        <a class="btn" href={sourceHref(src.source)}>
+          {paper ? UI.backToPaper[lang] : UI.backToSet[lang]}
         </a>
         <p class="hint">{UI.printHint[lang]}</p>
       </div>
       <article class="paper" lang={lang}>
         <header class="paper-head">
-          <h1>{setTitle(pool.manifest, lang)}</h1>
+          <h1>{title}</h1>
           <p>
             {E.fullMarks}: {n(fullMarks(set))}
           </p>

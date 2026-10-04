@@ -36,8 +36,10 @@ const fonts =
     <header class="site-header">
       <div class="container">
         <a class="site-name" href="/"><span class="bn">প্রশ্নব্যাংক</span><span class="en">Question Bank</span></a>
-        <nav class="site-nav" aria-label="Main">
+        <nav class="site-nav" aria-label="Main menu / প্রধান মেনু">
           <a href="/" aria-current={current === 'bank' ? 'page' : undefined}><span class="bn">প্রশ্নব্যাংক</span><span class="en">Question bank</span></a>
+          <a href="/board" aria-current={current === 'board' ? 'page' : undefined}><span class="bn">বোর্ড প্রশ্ন</span><span class="en">Board questions</span></a>
+          <a href="/admission" aria-current={current === 'admission' ? 'page' : undefined}><span class="bn">ভর্তি পরীক্ষা</span><span class="en">Admission</span></a>
         </nav>
         <LangToggle client:load />
       </div>

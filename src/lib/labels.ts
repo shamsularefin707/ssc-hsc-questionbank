@@ -25,6 +25,12 @@ export const SOURCE_KIND: Record<Source['kind'], Bi> = {
   admission: { bn: 'ভর্তি পরীক্ষা', en: 'Admission' },
 };
 
+export const ADMISSION_CATEGORY: Record<'medical' | 'engineering' | 'varsity', Bi> = {
+  medical: { bn: 'মেডিকেল ভর্তি পরীক্ষা', en: 'Medical Admission Test' },
+  engineering: { bn: 'ইঞ্জিনিয়ারিং ভর্তি পরীক্ষা', en: 'Engineering Admission Test' },
+  varsity: { bn: 'বিশ্ববিদ্যালয় ভর্তি পরীক্ষা', en: 'Varsity Admission Test' },
+};
+
 export const BOARDS: Record<string, Bi> = {
   dhaka: { bn: 'ঢাকা', en: 'Dhaka' },
   rajshahi: { bn: 'রাজশাহী', en: 'Rajshahi' },
@@ -86,6 +92,18 @@ export const UI = {
   solution: { bn: 'সমাধান', en: 'Solution' },
   marks: { bn: 'নম্বর', en: 'marks' },
   comingSoon: { bn: 'শীঘ্রই আসছে', en: 'Coming soon' },
+  boardTitle: { bn: 'বোর্ড প্রশ্ন', en: 'Board questions' },
+  boardIntro: { bn: '২০১৫ থেকে ২০২৬ সালের বোর্ড পরীক্ষার প্রশ্ন, উৎসসহ। সমাধান আমাদের লেখা।', en: 'Board exam questions from 2015 to 2026, with their sources. The solutions are ours.' },
+  boardEmpty: { bn: 'এই বিষয়ের বোর্ড প্রশ্ন যোগ করা হচ্ছে।', en: 'Board questions for this subject are being added.' },
+  admissionTitle: { bn: 'ভর্তি পরীক্ষার প্রশ্ন', en: 'Admission test questions' },
+  admissionIntro: { bn: 'মেডিকেল, ইঞ্জিনিয়ারিং ও বিশ্ববিদ্যালয় ভর্তি পরীক্ষার প্রশ্ন, উৎসসহ।', en: 'Medical, engineering and university admission test questions, with their sources.' },
+  admissionEmpty: { bn: 'ভর্তি পরীক্ষার প্রশ্ন যোগ করা হচ্ছে।', en: 'Admission questions are being added.' },
+  board: { bn: 'বোর্ড', en: 'Board' },
+  year: { bn: 'সাল', en: 'Year' },
+  papers: { bn: 'টি প্রশ্নপত্র', en: ' papers' },
+  practisePaper: { bn: 'MCQ অনুশীলন', en: 'Practise the MCQs' },
+  mockPaper: { bn: 'মডেল টেস্ট হিসেবে দিন', en: 'Take as a mock exam' },
+  noPaperMatch: { bn: 'এই বাছাইয়ে কোনো প্রশ্নপত্র নেই', en: 'No papers match these filters' },
   navMock: { bn: 'মডেল টেস্ট', en: 'Mock exam' },
   mockTitle: { bn: 'মডেল টেস্ট', en: 'Mock exam' },
   mockRulesTitle: { bn: 'নিয়ম', en: 'Rules' },
@@ -128,6 +146,9 @@ export const UI = {
   downloadWord: { bn: 'Word ডাউনলোড', en: 'Download Word' },
   downloadFailed: { bn: 'ডাউনলোড হয়নি, আবার চেষ্টা করুন', en: 'Download failed, try again' },
   savePdf: { bn: 'PDF হিসেবে সেভ করুন', en: 'Save as PDF' },
+  backToPaper: { bn: 'প্রশ্নপত্রে ফিরে যান', en: 'Back to the paper' },
+  practiseAgain: { bn: 'আবার অনুশীলন করুন', en: 'Practise again' },
+  paperMissing: { bn: 'এই প্রশ্নপত্রটি পাওয়া যায়নি', en: 'This paper wasn’t found' },
   backToSet: { bn: 'সেটে ফিরে যান', en: 'Back to the set' },
   printHint: { bn: 'প্রিন্ট উইন্ডোতে গন্তব্য হিসেবে \u201cSave as PDF\u201d বেছে নিন।', en: 'In the print window, choose \u201cSave as PDF\u201d as the destination.' },
   emptySet: { bn: 'এই বাছাইয়ে কোনো প্রশ্ন নেই', en: 'No questions match this set' },

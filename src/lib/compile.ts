@@ -85,8 +85,14 @@ export function compileAll(content: LoadedContent, opts: CompileOptions): Compil
   }
 
   const publishedIds = new Set(chapters.flatMap((c) => c.questions.map((q) => q.id)));
+  const chapterOfId = new Map(chapters.flatMap((c) => c.questions.map((q) => [`${c.level}/${c.subject}/${q.id}`, c.chapter] as const)));
   const papers = content.papers
-    .map((p) => ({ ...p, mcq: p.mcq.filter((id) => publishedIds.has(id)), cq: p.cq.filter((id) => publishedIds.has(id)) }))
+    .map((p) => {
+      const mcq = p.mcq.filter((id) => publishedIds.has(id));
+      const cq = p.cq.filter((id) => publishedIds.has(id));
+      const chapterOf = Object.fromEntries([...mcq, ...cq].map((id) => [id, chapterOfId.get(`${p.level}/${p.subject}/${id}`)!]));
+      return { ...p, mcq, cq, chapterOf };
+    })
     .filter((p) => p.mcq.length + p.cq.length > 0);
 
   const manifests: SubjectManifest[] = content.syllabi.map((s) => ({

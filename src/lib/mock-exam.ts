@@ -1,7 +1,8 @@
 // Board-format mock exam: 25 MCQs in 25 min, then answer 5 of 8 CQs in 2 h 35 min.
 // Time is always computed from stored timestamps, so a reload or a backgrounded tab keeps the right clock.
 import { CQ_MARKS, CQ_PARTS } from './copy-text';
-import type { Level, Mcq, RichBi } from './types';
+import { paperChapters } from './papers';
+import type { Level, Mcq, PaperIndex, RichBi } from './types';
 
 export const MOCK = { mcqCount: 25, mcqSeconds: 1500, cqOffered: 8, cqToAnswer: 5, cqSeconds: 9300 } as const;
 
@@ -38,6 +39,9 @@ export function createMock(level: Level, subject: string, chapters: string[], se
     phase: 'mcq',
   };
 }
+
+/** A mock that runs a real paper's questions, in its order. */
+export const createMockFromPaper = (paper: PaperIndex, now: number): MockState => createMock(paper.level, paper.subject, paperChapters(paper), 0, now, paper.id);
 
 const mcqDeadline = (s: MockState) => s.startedAt + MOCK.mcqSeconds * 1000;
 const cqDeadline = (s: MockState) => (s.cqStartedAt ?? mcqDeadline(s)) + MOCK.cqSeconds * 1000;

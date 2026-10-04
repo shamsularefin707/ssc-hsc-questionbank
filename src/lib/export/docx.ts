@@ -81,12 +81,12 @@ export function buildDocx(set: QuestionSet, lang: Lang, title: string, stimuli: 
   });
 }
 
-export async function downloadDocx(set: QuestionSet, lang: Lang, title: string, stimuli?: StimulusLookup): Promise<void> {
+export async function downloadDocx(set: QuestionSet, lang: Lang, title: string, stimuli?: StimulusLookup, fileName = docxFileName(set)): Promise<void> {
   const blob = await Packer.toBlob(buildDocx(set, lang, title, stimuli));
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = docxFileName(set);
+  a.download = fileName;
   document.body.append(a);
   a.click();
   a.remove();

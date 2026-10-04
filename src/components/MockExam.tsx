@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { CQ_MARKS, CQ_PARTS, LABELS } from '../lib/copy-text';
-import { DataLoadError, loadPool, type Pool } from '../lib/data-client';
+import { DataLoadError, loadPapers, loadPool, type Pool } from '../lib/data-client';
 import { UI, digits } from '../lib/labels';
 import { useLang } from '../lib/lang';
-import { MOCK, MOCK_CURRENT, advance, cqScore, createMock, mockKey, remainingSeconds, scoreMcq, toggleCq, type MockState } from '../lib/mock-exam';
+import { MOCK, MOCK_CURRENT, advance, cqScore, createMock, createMockFromPaper, mockKey, remainingSeconds, scoreMcq, toggleCq, type MockState } from '../lib/mock-exam';
 import { randomSeed } from '../lib/rng';
 import { buildSet } from '../lib/set-builder';
 import { storage } from '../lib/storage';
@@ -38,8 +38,10 @@ function loadSaved(): MockState | null {
   return id ? storage.get<MockState | null>(mockKey(id), null) : null;
 }
 
-export function MockExam({ manifest, paper }: { manifest: SubjectManifest; paper?: PaperIndex }) {
+export function MockExam({ manifest }: { manifest: SubjectManifest }) {
   const lang = useLang();
+  const [paper, setPaper] = useState<PaperIndex | undefined>(undefined);
+  const [paperMissing, setPaperMissing] = useState(false);
   const [state, setState] = useState<MockState | null | undefined>(undefined);
   const [chapters, setChapters] = useState<string[]>([]);
   const [pool, setPool] = useState<Pool | null>(null);
@@ -51,9 +53,22 @@ export function MockExam({ manifest, paper }: { manifest: SubjectManifest; paper
   const topRef = useRef<HTMLDivElement>(null);
 
   // Resume a saved mock for this subject (and this paper, if any).
+  // ?paper=id runs a board or admission paper; otherwise the student picks chapters.
   useEffect(() => {
-    const s = loadSaved();
-    setState(s && s.level === manifest.level && s.subject === manifest.subject && s.paper === paper?.id ? s : null);
+    const id = new URLSearchParams(location.search).get('paper');
+    const resume = (p?: PaperIndex) => {
+      const s = loadSaved();
+      setState(s && s.level === manifest.level && s.subject === manifest.subject && s.paper === p?.id ? s : null);
+    };
+    if (!id) return resume();
+    loadPapers()
+      .then((ps) => {
+        const p = ps.find((x) => x.id === id && x.level === manifest.level && x.subject === manifest.subject);
+        if (!p) return setPaperMissing(true);
+        setPaper(p);
+        resume(p);
+      })
+      .catch(() => setPaperMissing(true));
   }, []);
 
   // Persist on every change.
@@ -105,7 +120,7 @@ export function MockExam({ manifest, paper }: { manifest: SubjectManifest; paper
     const at = Date.now();
     warned.current = false;
     setNow(at);
-    update(createMock(manifest.level, manifest.subject, paper ? [] : chapters, randomSeed(), at, paper?.id));
+    update(paper ? createMockFromPaper(paper, at) : createMock(manifest.level, manifest.subject, chapters, randomSeed(), at));
   };
   const finishPhase = () => {
     update(advance(state!, Date.now()));
@@ -119,6 +134,15 @@ export function MockExam({ manifest, paper }: { manifest: SubjectManifest; paper
     setPool(null);
   };
 
+  if (paperMissing)
+    return (
+      <div class="state">
+        <h2>{UI.paperMissing[lang]}</h2>
+        <a class="btn" href={`/board/${manifest.level}/${manifest.subject}`}>
+          {UI.navBoard[lang]}
+        </a>
+      </div>
+    );
   if (state === undefined) return null;
 
   // ---------- Start screen ----------
@@ -130,6 +154,7 @@ export function MockExam({ manifest, paper }: { manifest: SubjectManifest; paper
     const short = mcqAvail < MOCK.mcqCount || cqAvail < MOCK.cqOffered;
     return (
       <div class="mock-start">
+        {paper && <p class="meta">{paper.title[lang]}</p>}
         {!paper && (
           <fieldset class="panel filter-section" style={{ margin: 0 }}>
             <legend class="visually-hidden">{UI.chapters[lang]}</legend>

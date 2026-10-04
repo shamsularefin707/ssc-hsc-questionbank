@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import { DataLoadError, loadPool, type Pool } from '../lib/data-client';
 import { LABELS } from '../lib/copy-text';
 import { DIFFICULTY, MCQ_TYPE, UI, digits } from '../lib/labels';
 import { useLang } from '../lib/lang';
 import { scorePractice } from '../lib/practice';
 import { randomSeed } from '../lib/rng';
-import { buildSet, decodeSet, encodeSet, type SetRequest } from '../lib/set-builder';
+import { encodeSet } from '../lib/set-builder';
+import { sourceHref, sourceKey, useSource } from '../lib/use-source';
 import { pushResult } from '../lib/storage';
 import type { Lang, Mcq, RichBi, Stimulus } from '../lib/types';
 import { BookmarkButton } from './BookmarkButton';
 import { Icon } from './Icon';
+import { SourceState } from './SourceState';
 
 const ROMAN = ['i', 'ii', 'iii'];
 const rich = (b: RichBi, lang: Lang) => (lang === 'bn' ? b.bnHtml : b.enHtml);
@@ -94,86 +95,48 @@ export function McqCard({ q, n, total, stimulus, chosen, onChoose, lang, mode = 
 
 export function Practice() {
   const lang = useLang();
-  const [link, setLink] = useState<{ req: SetRequest; seed: number } | null | undefined>(undefined);
-  const [pool, setPool] = useState<Pool | null>(null);
-  const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [retry, setRetry] = useState(0);
+  const src = useSource();
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [index, setIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
   const saved = useRef(false);
   const scoreRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => setLink(decodeSet(location.search)), []);
-
-  useEffect(() => {
-    if (!link) return;
-    let cancelled = false;
-    setState('loading');
-    loadPool(link.req.level, link.req.subject, link.req.chapters)
-      .then((p) => !cancelled && (setPool(p), setState('ready')))
-      .catch((e) => {
-        if (cancelled) return;
-        if (!(e instanceof DataLoadError)) console.error(e);
-        setState('error');
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [link, retry]);
-
-  const mcqs = useMemo(() => (pool && link ? buildSet(pool.questions, link.req, link.seed).mcqs : []), [pool, link]);
+  const mcqs = src.data?.mcqs ?? [];
   const score = scorePractice(mcqs, answers);
 
   useEffect(() => {
-    if (!score.done || saved.current || !link) return;
+    if (!score.done || saved.current || !src.source) return;
     saved.current = true;
-    pushResult({ at: Date.now(), setKey: encodeSet(link.req, link.seed), correct: score.correct, total: score.total });
+    pushResult({ at: Date.now(), setKey: sourceKey(src.source), correct: score.correct, total: score.total });
     scoreRef.current?.focus();
   }, [score.done]);
 
-  if (link === undefined) return null;
-  if (link === null)
-    return (
-      <div class="state">
-        <h2>{UI.badLink[lang]}</h2>
-        <p>{UI.badLinkHint[lang]}</p>
-        <a class="btn" href="/">
-          {UI.goHome[lang]}
-        </a>
-      </div>
-    );
-  if (state === 'error')
-    return (
-      <div class="state" role="alert">
-        <h2>{UI.loadError[lang]}</h2>
-        <button type="button" class="btn" style={{ marginTop: 'var(--s-4)' }} onClick={() => setRetry((r) => r + 1)}>
-          {UI.tryAgain[lang]}
-        </button>
-      </div>
-    );
-  if (state === 'loading') return <div class="skeleton" aria-busy="true" />;
-
-  const builderHref = `/${link.req.level}/${link.req.subject}/build${encodeSet(link.req, link.seed)}`;
+  if (!src.source || src.status !== 'ready' || !src.data) return <SourceState src={src} lang={lang} />;
+  const source = src.source;
+  const pool = src.data.pool;
+  const backHref = sourceHref(source);
   if (!mcqs.length)
     return (
       <div class="state">
         <h2>{UI.practiceNoMcq[lang]}</h2>
-        <a class="btn" href={builderHref}>
-          {UI.editSet[lang]}
+        <a class="btn" href={backHref}>
+          {source.kind === 'paper' ? UI.backToPaper[lang] : UI.editSet[lang]}
         </a>
       </div>
     );
 
-  const stimulusOf = (q: Mcq<RichBi>) => (q.stimulus_id ? pool!.stimuli.get(`${q.chapter}/${q.stimulus_id}`) : undefined);
+  const stimulusOf = (q: Mcq<RichBi>) => (q.stimulus_id ? pool.stimuli.get(`${q.chapter}/${q.stimulus_id}`) : undefined);
   const choose = (id: string, i: number) => setAnswers((a) => (id in a ? a : { ...a, [id]: i }));
   const card = (q: Mcq<RichBi>, i: number) => <McqCard key={q.id} q={q} n={i + 1} total={mcqs.length} stimulus={stimulusOf(q)} chosen={answers[q.id]} onChoose={(c) => choose(q.id, c)} lang={lang} />;
-  const newSet = () => {
-    location.search = encodeSet(link.req, randomSeed());
+  const again = () => {
+    if (source.kind === 'set') location.search = encodeSet(source.req, randomSeed());
+    else location.reload();
   };
 
   return (
     <div class="practice">
+      {src.data.paper && <p class="meta">{src.data.paper.title[lang]}</p>}
       <div class="results-bar">
         <span class="summary" aria-live="polite">
           {digits(score.answered, lang)}/{digits(score.total, lang)} {UI.answered[lang]}
@@ -188,11 +151,11 @@ export function Practice() {
             {UI.score[lang]}: {digits(score.correct, lang)}/{digits(score.total, lang)}
           </h2>
           <div class="card-actions">
-            <button type="button" class="btn btn-primary" onClick={newSet}>
-              {UI.newSet[lang]}
+            <button type="button" class="btn btn-primary" onClick={again}>
+              {source.kind === 'set' ? UI.newSet[lang] : UI.practiseAgain[lang]}
             </button>
-            <a class="btn" href={builderHref}>
-              {UI.editSet[lang]}
+            <a class="btn" href={backHref}>
+              {source.kind === 'paper' ? UI.backToPaper[lang] : UI.editSet[lang]}
             </a>
           </div>
         </div>

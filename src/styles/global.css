@@ -1008,3 +1008,35 @@ a.subject-row:hover {
 .paper .katex {
   font-size: 1.05em;
 }
+
+/* ---------- Board and admission lists ---------- */
+.paper-group + .paper-group {
+  margin-top: var(--s-6);
+}
+.paper-group h2 {
+  margin: 0 0 var(--s-3);
+}
+
+/* ---------- Header at phone widths ---------- */
+.lang-toggle {
+  display: flex;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.site-header .container {
+  flex-wrap: wrap;
+}
+.site-nav a {
+  white-space: nowrap;
+}
+@media (max-width: 639px) {
+  .site-header .container {
+    row-gap: 0;
+  }
+  .site-nav {
+    order: 3;
+    flex-basis: 100%;
+    overflow-x: auto;
+    padding-bottom: var(--s-3);
+  }
+}

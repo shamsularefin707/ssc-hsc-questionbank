@@ -1,7 +1,7 @@
 // Fetches compiled data in the browser.
 import type MiniSearch from 'minisearch';
 import { loadSearchJson, type SearchDoc } from './search';
-import type { ChapterData, CompiledQuestion, Level, RichBi, Stimulus, SubjectManifest } from './types';
+import type { ChapterData, CompiledQuestion, Level, PaperIndex, RichBi, Stimulus, SubjectManifest } from './types';
 
 export class DataLoadError extends Error {
   constructor(public url: string, public status: number) {
@@ -66,4 +66,15 @@ export async function loadPool(level: Level, subject: string, chapters: string[]
   const stimuli = new Map<string, Stimulus<RichBi>>();
   for (const ch of data) for (const [id, s] of Object.entries(ch.stimuli)) stimuli.set(`${ch.chapter}/${id}`, s);
   return { questions: data.flatMap((c) => c.questions), stimuli, manifest };
+}
+
+let papers: Promise<PaperIndex[]> | null = null;
+
+/** Every published board and admission paper. */
+export function loadPapers(): Promise<PaperIndex[]> {
+  if (!papers) {
+    papers = get('/data/papers.json').then((r) => r.json() as Promise<PaperIndex[]>);
+    papers.catch(() => (papers = null));
+  }
+  return papers;
 }

@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import { PaperView } from '../components/PaperView';
+import { UI } from '../lib/labels';
+---
+
+<Base title={`${UI.boardTitle.en} · ${UI.boardTitle.bn}`} current="board">
+  <PaperView client:load />
+</Base>
