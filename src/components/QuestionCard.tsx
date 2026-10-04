@@ -1,7 +1,9 @@
 import { useState } from 'preact/hooks';
 import { CQ_MARKS, CQ_PARTS, LABELS, questionToPlainText } from '../lib/copy-text';
 import { DIFFICULTY, MCQ_TYPE, UI, digits, sourceLabel } from '../lib/labels';
+import type { DisplayItem } from '../lib/filter';
 import type { Bi, CompiledQuestion, Cq, Figure, Lang, Mcq, RichBi, Stimulus } from '../lib/types';
+import { BookmarkButton } from './BookmarkButton';
 import { CopyButton } from './CopyButton';
 
 const ROMAN = ['i', 'ii', 'iii'];
@@ -136,6 +138,7 @@ function QuestionBlock({ q, ctx, globalLang, stimulus }: { q: CompiledQuestion; 
           {open ? UI.hideSolution[lang] : UI.showSolution[lang]}
         </button>
         <CopyButton lang={lang} getText={() => questionToPlainText(q, lang, { withSolution: true, stimulus })} />
+        <BookmarkButton id={q.id} lang={lang} />
         <button
           type="button"
           class="btn btn-ghost"
@@ -147,6 +150,20 @@ function QuestionBlock({ q, ctx, globalLang, stimulus }: { q: CompiledQuestion; 
         </button>
       </div>
       {open && (q.kind === 'mcq' ? <McqSolution q={q} lang={lang} /> : <CqSolution q={q} lang={lang} />)}
+    </div>
+  );
+}
+
+export function QuestionList({ items, stimuli, ctxFor, lang }: { items: DisplayItem[]; stimuli: (chapter: string, id: string) => Stimulus<RichBi> | undefined; ctxFor: (chapter: string) => CardContext; lang: Lang }) {
+  return (
+    <div class="cards">
+      {items.map((it) => {
+        if ('stimulusId' in it) {
+          const st = stimuli(it.chapter, it.stimulusId);
+          return st ? <StimulusGroup key={`${it.chapter}/${it.stimulusId}`} stimulus={st} items={it.items} ctx={ctxFor(it.chapter)} lang={lang} /> : null;
+        }
+        return <QuestionCard key={it.id} q={it} ctx={ctxFor(it.chapter)} lang={lang} />;
+      })}
     </div>
   );
 }

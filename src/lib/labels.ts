@@ -41,6 +41,10 @@ const BN_DIGITS = '০১২৩৪৫৬৭৮৯';
 export const digits = (n: number | string, lang: Lang) => (lang === 'bn' ? String(n).replace(/\d/g, (d) => BN_DIGITS[+d]) : String(n));
 
 /** Short source label for a question card, or null for original questions. */
+/** "Only N matching MCQs exist. Showing all N." */
+export const shortfallText = (n: number, kind: 'MCQ' | 'CQ', lang: Lang) =>
+  lang === 'bn' ? `মিলে যাওয়া ${kind} আছে মাত্র ${digits(n, 'bn')}টি। সবগুলো দেখানো হলো।` : `Only ${n} matching ${kind}s exist. Showing all ${n}.`;
+
 export function sourceLabel(s: Source, lang: Lang): string | null {
   if (s.kind === 'board') return `${BOARDS[s.board]?.[lang] ?? s.board} ${digits(s.year, lang)}`;
   if (s.kind === 'admission') return `${s.institution.toUpperCase()} ${digits(s.session, lang)}${s.unit ? ` · ${s.unit}` : ''}`;
@@ -82,4 +86,37 @@ export const UI = {
   solution: { bn: 'সমাধান', en: 'Solution' },
   marks: { bn: 'নম্বর', en: 'marks' },
   comingSoon: { bn: 'শীঘ্রই আসছে', en: 'Coming soon' },
+  bookmark: { bn: 'বুকমার্ক করুন', en: 'Bookmark' },
+  unbookmark: { bn: 'বুকমার্ক সরান', en: 'Remove bookmark' },
+  navBuild: { bn: 'প্রশ্নসেট তৈরি', en: 'Build a set' },
+  buildTitle: { bn: 'প্রশ্নসেট তৈরি করুন', en: 'Build a question set' },
+  buildIntro: { bn: 'অধ্যায়, কাঠিন্য ও সংখ্যা বেছে নিন। প্রশ্ন শুধু ব্যাংক থেকেই নেওয়া হয়।', en: 'Pick chapters, difficulty and how many questions. Questions only come from the bank.' },
+  allChapters: { bn: 'কোনো অধ্যায় না বাছলে সব অধ্যায় থেকে নেওয়া হবে।', en: 'Leave chapters empty to use every chapter.' },
+  mcqCount: { bn: 'MCQ সংখ্যা', en: 'Number of MCQs' },
+  cqCount: { bn: 'CQ সংখ্যা', en: 'Number of CQs' },
+  buildSet: { bn: 'সেট তৈরি করুন', en: 'Build set' },
+  reshuffle: { bn: 'আবার এলোমেলো করুন', en: 'Reshuffle' },
+  practise: { bn: 'অনুশীলন শুরু করুন', en: 'Start practice' },
+  printPdf: { bn: 'প্রিন্ট / PDF', en: 'Print or save as PDF' },
+  downloadWord: { bn: 'Word ডাউনলোড', en: 'Download Word' },
+  emptySet: { bn: 'এই বাছাইয়ে কোনো প্রশ্ন নেই', en: 'No questions match this set' },
+  emptySetHint: { bn: 'কাঠিন্য বা ধরন কমিয়ে আবার চেষ্টা করুন।', en: 'Loosen the difficulty or type and build again.' },
+  badLink: { bn: 'এই লিংকটি অসম্পূর্ণ', en: 'This link is incomplete' },
+  badLinkHint: { bn: 'প্রশ্নসেট তৈরির পাতা থেকে নতুন সেট তৈরি করুন।', en: 'Build a new set from the set builder.' },
+  goHome: { bn: 'হোম পেজে যান', en: 'Go to the home page' },
+  practiceTitle: { bn: 'MCQ অনুশীলন', en: 'MCQ practice' },
+  practiceNoMcq: { bn: 'এই সেটে কোনো MCQ নেই', en: 'This set has no MCQs' },
+  questionOf: { bn: 'প্রশ্ন', en: 'Question' },
+  of: { bn: '/', en: 'of' },
+  previous: { bn: 'আগের প্রশ্ন', en: 'Previous question' },
+  next: { bn: 'পরের প্রশ্ন', en: 'Next question' },
+  showAll: { bn: 'সব প্রশ্ন একসাথে দেখাও', en: 'Show all questions' },
+  showOne: { bn: 'একটি করে দেখাও', en: 'Show one at a time' },
+  correct: { bn: 'সঠিক', en: 'Correct' },
+  incorrect: { bn: 'ভুল', en: 'Incorrect' },
+  correctAnswer: { bn: 'সঠিক উত্তর', en: 'Correct answer' },
+  score: { bn: 'আপনার স্কোর', en: 'Your score' },
+  newSet: { bn: 'নতুন সেটে অনুশীলন', en: 'Practise a new set' },
+  editSet: { bn: 'সেট বদলান', en: 'Change the set' },
+  answered: { bn: 'উত্তর দেওয়া হয়েছে', en: 'answered' },
 } satisfies Record<string, Bi>;

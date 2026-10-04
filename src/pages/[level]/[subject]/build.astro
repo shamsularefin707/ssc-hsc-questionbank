@@ -1,6 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import { QuestionBank } from '../../../components/QuestionBank';
+import { SetBuilder } from '../../../components/SetBuilder';
 import { readManifests } from '../../../lib/site-data';
 import { UI } from '../../../lib/labels';
 import type { SubjectManifest } from '../../../lib/types';
@@ -13,13 +13,13 @@ const { manifest } = Astro.props as { manifest: SubjectManifest };
 const level = manifest.level === 'ssc' ? { bn: 'এসএসসি', en: 'SSC' } : { bn: 'এইচএসসি', en: 'HSC' };
 ---
 
-<Base title={`${level.en} ${manifest.title.en} · ${level.bn} ${manifest.title.bn} প্রশ্নব্যাংক`} current="bank">
+<Base title={`${UI.buildTitle.en}: ${level.en} ${manifest.title.en} · ${UI.buildTitle.bn}`} current="build">
   <div class="page-head">
     <h1>
-      <span class="bn">{level.bn} {manifest.title.bn}</span>
-      <span class="en">{level.en} {manifest.title.en}</span>
+      <span class="bn">{UI.buildTitle.bn}: {level.bn} {manifest.title.bn}</span>
+      <span class="en">{UI.buildTitle.en}: {level.en} {manifest.title.en}</span>
     </h1>
-    <a class="btn" href={`/${manifest.level}/${manifest.subject}/build`}><span class="bn">{UI.buildTitle.bn}</span><span class="en">{UI.buildTitle.en}</span></a>
+    <p><span class="bn">{UI.buildIntro.bn}</span><span class="en">{UI.buildIntro.en}</span></p>
   </div>
-  <QuestionBank client:load manifest={manifest} />
+  <SetBuilder client:load manifest={manifest} />
 </Base>

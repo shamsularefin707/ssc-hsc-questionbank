@@ -6,7 +6,7 @@ import { LangToggle } from '../components/LangToggle';
 interface Props {
   title: string;
   description?: string;
-  current?: 'bank';
+  current?: 'bank' | 'build';
 }
 const { title, description = 'SSC ও HSC বিজ্ঞান বিভাগের সৃজনশীল ও বহুনির্বাচনি প্রশ্ন, সমাধানসহ।', current } = Astro.props;
 const fonts =
@@ -26,7 +26,7 @@ const fonts =
     <link rel="stylesheet" href={fonts} />
     <script is:inline>
       try {
-        var l = localStorage.getItem('qb:lang');
+        var l = JSON.parse(localStorage.getItem('qb:lang'));
         if (l === 'en' || l === 'bn') document.documentElement.lang = l;
       } catch (e) {}
     </script>
