@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "validate": "tsx scripts/validate.ts",
-    "build:data": "echo \"data compile arrives in Task 4\"",
+    "build:data": "tsx scripts/build-data.ts",
     "build": "npm run validate && npm run build:data && astro build",
     "preview": "astro preview",
     "test": "vitest run",
