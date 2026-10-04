@@ -1,8 +1,10 @@
 import { expect, test } from 'vitest';
 import { questionToPlainText } from '../src/lib/copy-text';
-import type { Cq, Mcq } from '../src/lib/types';
+import type { Cq, Mcq, Question } from '../src/lib/types';
 
-const base = { level: 'ssc', subject: 'physics', chapter: '02-motion', topics: ['x'], difficulty: 'easy', source: { kind: 'original' }, status: 'reviewed' } as const;
+const base: Pick<Question, 'level' | 'subject' | 'chapter' | 'topics' | 'difficulty' | 'source' | 'status'> = {
+  level: 'ssc', subject: 'physics', chapter: '02-motion', topics: ['x'], difficulty: 'easy', source: { kind: 'original' }, status: 'reviewed',
+};
 
 const simple: Mcq = {
   ...base, id: 'm', kind: 'mcq', mcq_type: 'gyanmulok',
