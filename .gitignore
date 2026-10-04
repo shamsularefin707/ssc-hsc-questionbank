@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+public/data/
+.superpowers/
+test-results/
+playwright-report/
