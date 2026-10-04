@@ -47,11 +47,13 @@ export function buildSet(pool: CompiledQuestion[], req: SetRequest, seed: number
     unit.push(q);
   }
 
-  const mcqs: Mcq<RichBi>[] = [];
-  for (const unit of shuffle(units, rand)) {
+  const order = shuffle(units, rand);
+  let mcqs: Mcq<RichBi>[] = [];
+  for (const unit of order) {
     if (mcqs.length + unit.length <= req.mcqCount) mcqs.push(...unit);
     if (mcqs.length === req.mcqCount) break;
   }
+  if (mcqs.length < req.mcqCount) mcqs = bestFill(order, req.mcqCount);
   const cqs = shuffle(cqPool, rand).slice(0, req.cqCount);
 
   return {
@@ -62,6 +64,30 @@ export function buildSet(pool: CompiledQuestion[], req: SetRequest, seed: number
     available: { mcq: mcqPool.length, cq: cqPool.length },
     shortfall: mcqs.length < req.mcqCount || cqs.length < req.cqCount,
   };
+}
+
+/**
+ * Fallback when the greedy pass comes up short: choose which sets to include (subset sum over
+ * set sizes) so that sets plus singles get as close to `target` as possible without splitting a set.
+ */
+function bestFill(order: Mcq<RichBi>[][], target: number): Mcq<RichBi>[] {
+  const singles = order.filter((u) => u.length === 1 && !u[0].stimulus_id);
+  const sets = order.filter((u) => !singles.includes(u));
+  const reach = new Map<number, Mcq<RichBi>[][]>([[0, []]]);
+  for (const set of sets) {
+    for (const [sum, picked] of [...reach]) {
+      const next = sum + set.length;
+      if (next <= target && !reach.has(next)) reach.set(next, [...picked, set]);
+    }
+  }
+  let best = 0;
+  let bestTotal = -1;
+  for (const sum of reach.keys()) {
+    const total = sum + Math.min(singles.length, target - sum);
+    if (total > bestTotal) [best, bestTotal] = [sum, total];
+  }
+  const chosen = new Set([...reach.get(best)!, ...singles.slice(0, target - best)]);
+  return order.filter((u) => chosen.has(u)).flat();
 }
 
 const LIST_KEYS = ['chapters', 'topics', 'difficulty', 'mcqTypes'] as const;

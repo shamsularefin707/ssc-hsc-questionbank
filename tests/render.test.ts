@@ -28,3 +28,7 @@ test('newlines become line breaks and escaped dollars stay literal', () => {
 test('Bangla inside \\text renders without throwing', () => {
   expect(renderRich('$\\frac{\\text{পিচ}}{100}$')).toContain('class="katex"');
 });
+
+test('math carries MathML so screen readers can read it', () => {
+  expect(renderRich('$x^2$')).toContain('<math');
+});

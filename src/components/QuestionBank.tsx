@@ -3,7 +3,7 @@ import { DataLoadError, loadChapter, loadSearch } from '../lib/data-client';
 import { filterQuestions, groupForDisplay, type Filters } from '../lib/filter';
 import { DIFFICULTY, KIND, MCQ_TYPE, SOURCE_KIND, UI, digits } from '../lib/labels';
 import { useLang } from '../lib/lang';
-import { decodeFilters, encodeFilters } from '../lib/url-state';
+import { decodeFilters, encodeFilters, normalizeFilters } from '../lib/url-state';
 import type { Bi, ChapterData, CompiledQuestion, Lang, SubjectManifest } from '../lib/types';
 import { FilterChip } from './FilterChip';
 import { Icon } from './Icon';
@@ -35,9 +35,12 @@ export function QuestionBank({ manifest }: { manifest: SubjectManifest }) {
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
 
-  // Read filters from the URL once.
+  const withQuestions = manifest.chapters.filter((c) => c.counts.mcq + c.counts.cq > 0);
+  const known = withQuestions.map((c) => c.slug);
+
+  // Read filters from the URL once, dropping chapters that no longer exist.
   useEffect(() => {
-    const f = decodeFilters(location.search);
+    const f = normalizeFilters(decodeFilters(location.search), known);
     setFilters(f);
     setQuery(f.q ?? '');
     setReady(true);
@@ -50,8 +53,7 @@ export function QuestionBank({ manifest }: { manifest: SubjectManifest }) {
     setVisible(PAGE);
   }, [filters, ready]);
 
-  const withQuestions = manifest.chapters.filter((c) => c.counts.mcq + c.counts.cq > 0);
-  const wanted = filters.chapters?.length ? filters.chapters : withQuestions.map((c) => c.slug);
+  const wanted = filters.chapters?.length ? filters.chapters : known;
   const wantedKey = wanted.join(',');
 
   // Load the chapters the current filters need.
@@ -141,7 +143,7 @@ export function QuestionBank({ manifest }: { manifest: SubjectManifest }) {
         const allowed = new Set(manifest.chapters.filter((c) => next.chapters?.includes(c.slug)).flatMap((c) => c.topics.map((t) => t.slug)));
         next.topics = next.topics.filter((t) => allowed.has(t));
       }
-      return next;
+      return normalizeFilters(next, known);
     });
   };
 

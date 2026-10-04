@@ -49,3 +49,13 @@ describe('compileAll', () => {
     expect(search.search('প্রশ্ন').map((r) => r.id)).toContain('t-mcq-1');
   });
 });
+
+describe('shared-stimulus sets publish whole or not at all', () => {
+  test('a set with one unpublished member is dropped with its stimulus', () => {
+    const out = compileAll(contentWithStatuses({ 't-mcq-3': 'draft' }), { showDrafts: false });
+    const ch = out.chapters[0];
+    expect(ch.questions.map((q) => q.id)).not.toContain('t-mcq-2');
+    expect(ch.stimuli.s1).toBeUndefined();
+    expect(out.manifests[0].chapters[0].counts.mcq).toBe(1);
+  });
+});

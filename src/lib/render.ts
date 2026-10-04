@@ -13,7 +13,7 @@ export function renderRich(text: string): string {
     .map((part, i) => {
       if (i % 2 === 0) return textToHtml(part);
       try {
-        return katex.renderToString(part, { throwOnError: true, strict: 'ignore', output: 'html' });
+        return katex.renderToString(part, { throwOnError: true, strict: 'ignore', output: 'htmlAndMathml' });
       } catch (e) {
         console.warn(`KaTeX could not render "${part}": ${(e as Error).message}`);
         return textToHtml(`$${part}$`);

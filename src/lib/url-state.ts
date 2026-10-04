@@ -45,3 +45,14 @@ export function decodeFilters(search: string): Filters {
   if (q) out.q = q;
   return out;
 }
+
+/** Drops chapter slugs this subject doesn't have, and MCQ types while only CQs are shown (their chips are hidden). */
+export function normalizeFilters(f: Filters, knownChapters: string[]): Filters {
+  const out: Filters = { ...f };
+  if (f.chapters) {
+    const kept = f.chapters.filter((c) => knownChapters.includes(c));
+    out.chapters = kept.length ? kept : undefined;
+  }
+  if ('mcqType' in f && f.kind?.length === 1 && f.kind[0] === 'cq') out.mcqType = undefined;
+  return out;
+}

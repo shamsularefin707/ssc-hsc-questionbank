@@ -85,3 +85,21 @@ describe('encodeSet / decodeSet', () => {
     expect(decodeSet('?level=ssc&subject=physics&chapters=01-a&mcq=abc&cq=1&seed=1')).toBeNull();
   });
 });
+
+describe('buildSet fills exactly when a combination exists', () => {
+  const pair = [mcq('p1', { stimulus_id: 's' }), mcq('p2', { stimulus_id: 's' })];
+  test('one single plus one pair meets a request for 2 or 3 on every seed', () => {
+    for (let seed = 1; seed <= 30; seed++) {
+      const two = buildSet([mcq('x'), ...pair], req({ mcqCount: 2, cqCount: 0 }), seed);
+      expect(two.mcqs).toHaveLength(2);
+      expect(two.shortfall).toBe(false);
+      const three = buildSet([mcq('x'), ...pair], req({ mcqCount: 3, cqCount: 0 }), seed);
+      expect(three.mcqs).toHaveLength(3);
+    }
+  });
+  test('a pair alone cannot fill 1, so that is a real shortfall', () => {
+    const s = buildSet(pair, req({ mcqCount: 1, cqCount: 0 }), 1);
+    expect(s.mcqs).toHaveLength(0);
+    expect(s.shortfall).toBe(true);
+  });
+});

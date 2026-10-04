@@ -50,9 +50,15 @@ function compileQuestion(q: Question, figureBase: string): CompiledQuestion {
 
 const published = (q: Question, opts: CompileOptions) => q.status === 'reviewed' || (opts.showDrafts && q.status === 'checked');
 
+/** Published questions of a chapter. An অভিন্ন তথ্যভিত্তিক set ships whole or not at all. */
+function publishedQuestions(ch: LoadedChapter, opts: CompileOptions): Question[] {
+  const blocked = new Set(ch.questions.filter((q) => !published(q, opts) && q.kind === 'mcq' && q.stimulus_id).map((q) => (q as Mcq).stimulus_id));
+  return ch.questions.filter((q) => published(q, opts) && !(q.kind === 'mcq' && q.stimulus_id && blocked.has(q.stimulus_id)));
+}
+
 export function compileChapter(ch: LoadedChapter, syllabus: Syllabus, opts: CompileOptions): ChapterData {
   const base = dataPath(ch.level, ch.subject, ch.chapter);
-  const questions = ch.questions.filter((q) => published(q, opts)).map((q) => compileQuestion(q, base));
+  const questions = publishedQuestions(ch, opts).map((q) => compileQuestion(q, base));
   const used = new Set(questions.flatMap((q) => (q.kind === 'mcq' && q.stimulus_id ? [q.stimulus_id] : [])));
   const stimuli: Record<string, Stimulus<RichBi>> = {};
   for (const s of ch.stimuli) {
@@ -74,7 +80,7 @@ export function compileAll(content: LoadedContent, opts: CompileOptions): Compil
     if (!syl) throw new Error(`No syllabus for ${key(ch.level, ch.subject)}`);
     chapters.push(compileChapter(ch, syl, opts));
     const base = dataPath(ch.level, ch.subject, ch.chapter);
-    const files = new Set([...ch.questions.filter((q) => published(q, opts)), ...ch.stimuli].flatMap((x) => x.figures?.map((f) => f.file) ?? []));
+    const files = new Set([...publishedQuestions(ch, opts), ...ch.stimuli].flatMap((x) => x.figures?.map((f) => f.file) ?? []));
     for (const f of files) figures.push({ from: `${ch.dir}/${f}`, to: `${base}/${f}` });
   }
 
