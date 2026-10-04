@@ -39,9 +39,10 @@ export function QuestionBank({ manifest }: { manifest: SubjectManifest }) {
   const known = withQuestions.map((c) => c.slug);
 
   // Read filters from the URL once, dropping chapters that no longer exist.
+  // A chip tapped before this effect runs wins over the URL instead of being wiped.
   useEffect(() => {
     const f = normalizeFilters(decodeFilters(location.search), known);
-    setFilters(f);
+    setFilters((picked) => ({ ...f, ...picked }));
     setQuery(f.q ?? '');
     setReady(true);
   }, []);

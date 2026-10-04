@@ -4,6 +4,8 @@ test('browse, filter, reveal a solution and switch language', async ({ page }) =
   await page.goto('/');
   await page.getByRole('link', { name: /পদার্থবিজ্ঞান/ }).first().click();
   await expect(page).toHaveURL(/\/ssc\/physics\/$/);
+  // Clicks before the filters hydrate are lost; Astro drops [ssr] once an island is live.
+  await expect(page.locator('astro-island:not([ssr]) .filters')).toBeAttached();
   await page.locator('.filters').getByText('২. গতি').click();
   await page.locator('.filters').getByRole('button', { name: 'সহজ' }).click();
   await expect(page).toHaveURL(/chapters=02-motion/);
@@ -26,6 +28,7 @@ test('browse, filter, reveal a solution and switch language', async ({ page }) =
 
 test('build a 5-MCQ set and open its print view', async ({ page }) => {
   await page.goto('/ssc/physics/build');
+  await expect(page.locator('astro-island:not([ssr]) .builder-form')).toBeAttached();
   const mcq = page.getByLabel('MCQ সংখ্যা');
   await mcq.fill('5');
   await page.getByRole('button', { name: 'সেট তৈরি করুন' }).click();
