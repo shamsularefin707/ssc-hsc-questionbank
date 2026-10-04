@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import { digits } from '../lib/labels';
+import { questionCount, readManifests } from '../lib/site-data';
+
+const manifests = readManifests();
+const levels = [
+  { id: 'ssc', bn: 'এসএসসি', en: 'SSC' },
+  { id: 'hsc', bn: 'এইচএসসি', en: 'HSC' },
+] as const;
+---
+
+<Base title="SSC ও HSC প্রশ্নব্যাংক" current="bank">
+  <div class="home-intro">
+    <h1><span class="bn">এসএসসি ও এইচএসসি প্রশ্নব্যাংক</span><span class="en">SSC and HSC Question Bank</span></h1>
+    <p>
+      <span class="bn">বিজ্ঞান বিভাগের সৃজনশীল ও বহুনির্বাচনি প্রশ্ন, পূর্ণ সমাধানসহ। বিষয় বেছে নিয়ে শুরু করুন।</span>
+      <span class="en">Creative and multiple-choice questions for the science group, with full solutions. Pick a subject to start.</span>
+    </p>
+  </div>
+  <div class="levels">
+    {
+      levels.map((lv) => {
+        const subjects = manifests.filter((m) => m.level === lv.id);
+        return (
+          <section class="level" aria-labelledby={`level-${lv.id}`}>
+            <h2 id={`level-${lv.id}`}>
+              <span class="bn">{lv.bn}</span>
+              <span class="en">{lv.en}</span>
+            </h2>
+            {subjects.length ? (
+              <ul class="subject-list">
+                {subjects.map((m) => {
+                  const n = questionCount(m);
+                  const chapters = m.chapters.length;
+                  return (
+                    <li>
+                      <a class="subject-row" href={`/${m.level}/${m.subject}/`}>
+                        <span class="name">
+                          <span class="bn">{m.title.bn}</span>
+                          <span class="en">{m.title.en}</span>
+                        </span>
+                        <span class="meta">
+                          <span class="bn">{digits(chapters, 'bn')}টি অধ্যায় · {digits(n, 'bn')}টি প্রশ্ন</span>
+                          <span class="en">{chapters} chapters · {n} questions</span>
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <ul class="subject-list">
+                <li class="subject-row">
+                  <span class="meta">
+                    <span class="bn">এইচএসসির বিষয়গুলো শীঘ্রই যোগ হবে।</span>
+                    <span class="en">HSC subjects are being added.</span>
+                  </span>
+                </li>
+              </ul>
+            )}
+          </section>
+        );
+      })
+    }
+  </div>
+</Base>

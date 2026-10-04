@@ -1,0 +1,193 @@
+level: ssc
+subject: physics
+chapter: 02-motion
+stimuli:
+  - id: s-free-fall-roof
+    text:
+      bn: 'একটি বল 20 m উঁচু একটি ছাদ থেকে স্থির অবস্থা থেকে ছেড়ে দেওয়া হলো। ($g = 9.8\ \text{m s}^{-2}$, বায়ুর বাধা উপেক্ষণীয়)'
+      en: 'A ball is released from rest from a roof 20 m high. ($g = 9.8\ \text{m s}^{-2}$; ignore air resistance.)'
+questions:
+  - id: ssc-phy-02-mcq-0001
+    topics: [scalar-vector]
+    difficulty: easy
+    source: { kind: original }
+    status: reviewed
+    mcq_type: gyanmulok
+    stem: { bn: নিচের কোনটি ভেক্টর রাশি?, en: Which of the following is a vector quantity? }
+    options:
+      - { bn: দ্রুতি, en: Speed }
+      - { bn: সরণ, en: Displacement }
+      - { bn: দূরত্ব, en: Distance }
+      - { bn: সময়, en: Time }
+    answer: 1
+    explanation:
+      bn: যে রাশির মান ও দিক দুটোই আছে, তাকে ভেক্টর রাশি বলে। সরণের মান ও দিক উভয়ই আছে; দ্রুতি, দূরত্ব ও সময়ের কেবল মান আছে।
+      en: A vector quantity has both magnitude and direction. Displacement has both; speed, distance and time have magnitude only.
+
+  - id: ssc-phy-02-mcq-0002
+    topics: [acceleration]
+    difficulty: easy
+    source: { kind: original }
+    status: reviewed
+    mcq_type: gyanmulok
+    stem: { bn: ত্বরণের এসআই একক কোনটি?, en: What is the SI unit of acceleration? }
+    options:
+      - { bn: '$\text{m s}^{-1}$', en: '$\text{m s}^{-1}$' }
+      - { bn: '$\text{m s}^{-2}$', en: '$\text{m s}^{-2}$' }
+      - { bn: '$\text{m}^2\ \text{s}^{-1}$', en: '$\text{m}^2\ \text{s}^{-1}$' }
+      - { bn: '$\text{N s}$', en: '$\text{N s}$' }
+    answer: 1
+    explanation:
+      bn: 'ত্বরণ = বেগের পরিবর্তন ÷ সময়, তাই এর একক $\frac{\text{m s}^{-1}}{\text{s}} = \text{m s}^{-2}$।'
+      en: 'Acceleration = change in velocity ÷ time, so its unit is $\frac{\text{m s}^{-1}}{\text{s}} = \text{m s}^{-2}$.'
+
+  - id: ssc-phy-02-mcq-0003
+    topics: [free-fall]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: gyanmulok
+    stem: { bn: ভূপৃষ্ঠে অভিকর্ষজ ত্বরণের আদর্শ মান কত?, en: What is the standard value of the acceleration due to gravity at the Earth's surface? }
+    options:
+      - { bn: '$9.8\ \text{m s}^{-2}$', en: '$9.8\ \text{m s}^{-2}$' }
+      - { bn: '$8.9\ \text{m s}^{-2}$', en: '$8.9\ \text{m s}^{-2}$' }
+      - { bn: '$98\ \text{m s}^{-2}$', en: '$98\ \text{m s}^{-2}$' }
+      - { bn: '$6.67 \times 10^{-11}\ \text{m s}^{-2}$', en: '$6.67 \times 10^{-11}\ \text{m s}^{-2}$' }
+    answer: 0
+    explanation:
+      bn: 'ভূপৃষ্ঠে $g$-এর আদর্শ মান প্রায় $9.8\ \text{m s}^{-2}$। $6.67 \times 10^{-11}$ হলো মহাকর্ষীয় ধ্রুবক $G$-এর মান (একক $\text{N m}^2\ \text{kg}^{-2}$), যা ভিন্ন রাশি।'
+      en: 'The standard value of $g$ at the Earth''s surface is about $9.8\ \text{m s}^{-2}$. $6.67 \times 10^{-11}$ is the value of the gravitational constant $G$ (unit $\text{N m}^2\ \text{kg}^{-2}$), a different quantity.'
+
+  - id: ssc-phy-02-mcq-0004
+    topics: [rest-motion]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: onudhabon
+    stem: { bn: স্থিতি ও গতিকে আপেক্ষিক বলা হয় কেন?, en: Why are rest and motion called relative? }
+    options:
+      - { bn: এগুলো বস্তুর ভরের উপর নির্ভর করে, en: They depend on the mass of the body }
+      - { bn: এগুলো সময়ের সাথে বদলায় না, en: They do not change with time }
+      - { bn: এগুলো প্রসঙ্গ বস্তুর সাপেক্ষে নির্ধারিত হয়, en: They are decided with respect to a reference body }
+      - { bn: মহাবিশ্বের সব বস্তু সবসময় গতিশীল, en: Every object in the universe is always moving }
+    answer: 2
+    explanation:
+      bn: চলন্ত বাসের যাত্রী বাসের সাপেক্ষে স্থির, কিন্তু রাস্তার সাপেক্ষে গতিশীল। কোনো বস্তু স্থির না গতিশীল, তা প্রসঙ্গ বস্তু বেছে নেওয়ার উপর নির্ভর করে, তাই স্থিতি ও গতি আপেক্ষিক।
+      en: A passenger in a moving bus is at rest relative to the bus but moving relative to the road. Whether a body is at rest or moving depends on the chosen reference body, so rest and motion are relative.
+
+  - id: ssc-phy-02-mcq-0005
+    topics: [speed-velocity, acceleration]
+    difficulty: hard
+    source: { kind: original }
+    status: reviewed
+    mcq_type: onudhabon
+    stem: { bn: একটি বস্তু বৃত্তাকার পথে সমদ্রুতিতে ঘুরছে। এক্ষেত্রে কোনটি সঠিক?, en: A body moves along a circular path at constant speed. Which statement is correct? }
+    options:
+      - { bn: বস্তুটির বেগ ধ্রুব থাকে, en: Its velocity stays constant }
+      - { bn: বস্তুটির ত্বরণ শূন্য, en: Its acceleration is zero }
+      - { bn: দিক বদলানোয় বস্তুটির বেগ পরিবর্তিত হয়, en: Its velocity changes because its direction changes }
+      - { bn: বস্তুটির দ্রুতি পরিবর্তিত হয়, en: Its speed changes }
+    answer: 2
+    explanation:
+      bn: বেগ ভেক্টর রাশি। বৃত্তাকার পথে দ্রুতি (মান) ধ্রুব থাকলেও প্রতি মুহূর্তে দিক বদলায়, তাই বেগ পরিবর্তিত হয় এবং বস্তুটির ত্বরণ থাকে (কেন্দ্রমুখী ত্বরণ)।
+      en: Velocity is a vector. On a circular path the speed (magnitude) stays the same but the direction changes at every instant, so the velocity changes and the body has an acceleration (centripetal acceleration).
+
+  - id: ssc-phy-02-mcq-0006
+    topics: [equations-of-motion]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: onudhabon
+    stem:
+      bn: 'একটি গাড়ি স্থির অবস্থা থেকে $2\ \text{m s}^{-2}$ সুষম ত্বরণে চলতে শুরু করল। 5 s পর গাড়িটির বেগ কত হবে?'
+      en: 'A car starts from rest with a uniform acceleration of $2\ \text{m s}^{-2}$. What is its velocity after 5 s?'
+    options:
+      - { bn: '$2.5\ \text{m s}^{-1}$', en: '$2.5\ \text{m s}^{-1}$' }
+      - { bn: '$7\ \text{m s}^{-1}$', en: '$7\ \text{m s}^{-1}$' }
+      - { bn: '$10\ \text{m s}^{-1}$', en: '$10\ \text{m s}^{-1}$' }
+      - { bn: '$25\ \text{m s}^{-1}$', en: '$25\ \text{m s}^{-1}$' }
+    answer: 2
+    explanation:
+      bn: '$v = u + at = 0 + 2 \times 5 = 10\ \text{m s}^{-1}$'
+      en: '$v = u + at = 0 + 2 \times 5 = 10\ \text{m s}^{-1}$'
+    computable: { expr: '0 + 2*5', expected: 10 }
+
+  - id: ssc-phy-02-mcq-0007
+    topics: [motion-graphs]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: bohupodi
+    stem: { bn: একটি বস্তুর বেগ-সময় লেখচিত্র থেকে পাওয়া যায়—, en: From the velocity–time graph of a body we can find— }
+    statements:
+      - { bn: লেখচিত্রের ঢাল থেকে ত্বরণ, en: its acceleration from the slope of the graph }
+      - { bn: লেখচিত্রের ঢাল থেকে বেগ, en: its velocity from the slope of the graph }
+      - { bn: লেখচিত্রের নিচের ক্ষেত্রফল থেকে সরণ, en: its displacement from the area under the graph }
+    options:
+      - { bn: i ও ii, en: i and ii }
+      - { bn: i ও iii, en: i and iii }
+      - { bn: ii ও iii, en: ii and iii }
+      - { bn: 'i, ii ও iii', en: 'i, ii and iii' }
+    answer: 1
+    explanation:
+      bn: বেগ-সময় লেখচিত্রের ঢাল = বেগের পরিবর্তন ÷ সময় = ত্বরণ, এবং লেখচিত্রের নিচের ক্ষেত্রফল = সরণ। বেগ সরাসরি লেখচিত্র থেকে পড়া যায়, ঢাল থেকে নয়। তাই i ও iii সঠিক।
+      en: The slope of a velocity–time graph is change in velocity ÷ time, which is acceleration, and the area under it is displacement. Velocity is read directly off the graph, not from its slope. So i and iii are correct.
+
+  - id: ssc-phy-02-mcq-0008
+    topics: [free-fall]
+    difficulty: hard
+    source: { kind: original }
+    status: reviewed
+    mcq_type: bohupodi
+    stem: { bn: স্থির অবস্থা থেকে মুক্তভাবে পড়ন্ত বস্তুর ক্ষেত্রে—, en: For a body falling freely from rest— }
+    statements:
+      - { bn: বায়ুশূন্য স্থানে সব বস্তু একই ত্বরণে পড়ে, en: in a vacuum all bodies fall with the same acceleration }
+      - { bn: বস্তুর বেগ সময়ের সমানুপাতিক, en: its velocity is proportional to time }
+      - { bn: অতিক্রান্ত দূরত্ব সময়ের সমানুপাতিক, en: the distance fallen is proportional to time }
+    options:
+      - { bn: i ও ii, en: i and ii }
+      - { bn: i ও iii, en: i and iii }
+      - { bn: ii ও iii, en: ii and iii }
+      - { bn: 'i, ii ও iii', en: 'i, ii and iii' }
+    answer: 0
+    explanation:
+      bn: 'বায়ুশূন্য স্থানে সব বস্তুর ত্বরণ $g$। স্থির অবস্থা থেকে $v = gt$, তাই $v \propto t$। কিন্তু $h = \frac{1}{2}gt^2$, অর্থাৎ দূরত্ব সময়ের বর্গের সমানুপাতিক, সময়ের নয়। তাই i ও ii সঠিক।'
+      en: 'In a vacuum every body falls with acceleration $g$. From rest, $v = gt$, so $v \propto t$. But $h = \frac{1}{2}gt^2$: distance is proportional to the square of time, not to time. So i and ii are correct.'
+
+  - id: ssc-phy-02-mcq-0009
+    topics: [free-fall, equations-of-motion]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: ovinno
+    stimulus_id: s-free-fall-roof
+    stem: { bn: বলটি ভূমিতে পৌঁছাতে কত সময় লাগবে?, en: How long does the ball take to reach the ground? }
+    options:
+      - { bn: 1.43 s, en: 1.43 s }
+      - { bn: 2.02 s, en: 2.02 s }
+      - { bn: 2.86 s, en: 2.86 s }
+      - { bn: 4.08 s, en: 4.08 s }
+    answer: 1
+    explanation:
+      bn: '$h = \frac{1}{2}gt^2$ থেকে $t = \sqrt{\frac{2h}{g}} = \sqrt{\frac{2 \times 20}{9.8}} \approx 2.02$ s'
+      en: 'From $h = \frac{1}{2}gt^2$, $t = \sqrt{\frac{2h}{g}} = \sqrt{\frac{2 \times 20}{9.8}} \approx 2.02$ s'
+    computable: { expr: 'sqrt(2*20/9.8)', expected: 2.02, tolerance: 0.01 }
+
+  - id: ssc-phy-02-mcq-0010
+    topics: [free-fall, equations-of-motion]
+    difficulty: hard
+    source: { kind: original }
+    status: reviewed
+    mcq_type: ovinno
+    stimulus_id: s-free-fall-roof
+    stem: { bn: ভূমি স্পর্শ করার মুহূর্তে বলটির বেগ কত?, en: What is the ball's velocity at the moment it hits the ground? }
+    options:
+      - { bn: '$9.8\ \text{m s}^{-1}$', en: '$9.8\ \text{m s}^{-1}$' }
+      - { bn: '$14.0\ \text{m s}^{-1}$', en: '$14.0\ \text{m s}^{-1}$' }
+      - { bn: '$19.8\ \text{m s}^{-1}$', en: '$19.8\ \text{m s}^{-1}$' }
+      - { bn: '$39.2\ \text{m s}^{-1}$', en: '$39.2\ \text{m s}^{-1}$' }
+    answer: 2
+    explanation:
+      bn: '$v^2 = u^2 + 2gh = 0 + 2 \times 9.8 \times 20 = 392$, তাই $v = \sqrt{392} \approx 19.8\ \text{m s}^{-1}$'
+      en: '$v^2 = u^2 + 2gh = 0 + 2 \times 9.8 \times 20 = 392$, so $v = \sqrt{392} \approx 19.8\ \text{m s}^{-1}$'
+    computable: { expr: 'sqrt(2*9.8*20)', expected: 19.8, tolerance: 0.01 }

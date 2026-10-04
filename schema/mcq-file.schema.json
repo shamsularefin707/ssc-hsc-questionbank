@@ -1,0 +1,318 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mcq-file",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "level",
+    "subject",
+    "chapter",
+    "questions"
+  ],
+  "properties": {
+    "level": {
+      "$ref": "#/$defs/level"
+    },
+    "subject": {
+      "$ref": "#/$defs/slug"
+    },
+    "chapter": {
+      "$ref": "#/$defs/slug"
+    },
+    "stimuli": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "$ref": "#/$defs/bi"
+          },
+          "figures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/figure"
+            }
+          }
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "topics",
+          "difficulty",
+          "source",
+          "status",
+          "mcq_type",
+          "stem",
+          "options",
+          "answer",
+          "explanation"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "topics": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/slug"
+            }
+          },
+          "difficulty": {
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ]
+          },
+          "source": {
+            "$ref": "#/$defs/source"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "checked",
+              "reviewed"
+            ]
+          },
+          "figures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/figure"
+            }
+          },
+          "mcq_type": {
+            "enum": [
+              "gyanmulok",
+              "onudhabon",
+              "bohupodi",
+              "ovinno"
+            ]
+          },
+          "stem": {
+            "$ref": "#/$defs/bi"
+          },
+          "statements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/bi"
+            }
+          },
+          "options": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+              "$ref": "#/$defs/bi"
+            }
+          },
+          "answer": {
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          "explanation": {
+            "$ref": "#/$defs/bi"
+          },
+          "stimulus_id": {
+            "type": "string"
+          },
+          "computable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "expr",
+              "expected"
+            ],
+            "properties": {
+              "expr": {
+                "type": "string"
+              },
+              "expected": {
+                "type": "number"
+              },
+              "tolerance": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "mcq_type": {
+                  "const": "bohupodi"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "statements"
+              ],
+              "properties": {
+                "statements": {
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 3
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "mcq_type": {
+                  "const": "ovinno"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "stimulus_id"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "bi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bn",
+        "en"
+      ],
+      "properties": {
+        "bn": {
+          "type": "string"
+        },
+        "en": {
+          "type": "string"
+        }
+      }
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "level": {
+      "enum": [
+        "ssc",
+        "hsc"
+      ]
+    },
+    "figure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "alt"
+      ],
+      "properties": {
+        "file": {
+          "type": "string",
+          "pattern": "^figures/[a-z0-9-]+\\.(svg|png)$"
+        },
+        "alt": {
+          "$ref": "#/$defs/bi"
+        }
+      }
+    },
+    "source": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "original"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "exam",
+            "board",
+            "year"
+          ],
+          "properties": {
+            "kind": {
+              "const": "board"
+            },
+            "exam": {
+              "$ref": "#/$defs/level"
+            },
+            "board": {
+              "$ref": "#/$defs/slug"
+            },
+            "year": {
+              "type": "integer",
+              "minimum": 2015,
+              "maximum": 2026
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "category",
+            "institution",
+            "session"
+          ],
+          "properties": {
+            "kind": {
+              "const": "admission"
+            },
+            "category": {
+              "enum": [
+                "medical",
+                "engineering",
+                "varsity"
+              ]
+            },
+            "institution": {
+              "$ref": "#/$defs/slug"
+            },
+            "session": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}$"
+            },
+            "unit": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

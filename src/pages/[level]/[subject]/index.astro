@@ -1,0 +1,23 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { QuestionBank } from '../../../components/QuestionBank';
+import { readManifests } from '../../../lib/site-data';
+import type { SubjectManifest } from '../../../lib/types';
+
+export function getStaticPaths() {
+  return readManifests().map((m) => ({ params: { level: m.level, subject: m.subject }, props: { manifest: m } }));
+}
+
+const { manifest } = Astro.props as { manifest: SubjectManifest };
+const level = manifest.level === 'ssc' ? { bn: 'এসএসসি', en: 'SSC' } : { bn: 'এইচএসসি', en: 'HSC' };
+---
+
+<Base title={`${level.en} ${manifest.title.en} · ${level.bn} ${manifest.title.bn} প্রশ্নব্যাংক`} current="bank">
+  <div class="page-head">
+    <h1>
+      <span class="bn">{level.bn} {manifest.title.bn}</span>
+      <span class="en">{level.en} {manifest.title.en}</span>
+    </h1>
+  </div>
+  <QuestionBank client:load manifest={manifest} />
+</Base>

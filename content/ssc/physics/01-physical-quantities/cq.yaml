@@ -1,0 +1,53 @@
+level: ssc
+subject: physics
+chapter: 01-physical-quantities
+questions:
+  - id: ssc-phy-01-cq-0001
+    topics: [measuring-instruments, errors]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    stimulus:
+      bn: |-
+        একটি স্ক্রু গজের পিচ 1 mm এবং বৃত্তাকার স্কেলে 100টি ভাগ আছে। যন্ত্রটির শূন্য ত্রুটি +0.02 mm। একটি তারের ব্যাস মাপার সময় রৈখিক স্কেল পাঠ 2 mm এবং বৃত্তাকার স্কেল পাঠ 45 পাওয়া গেল।
+      en: |-
+        A screw gauge has a pitch of 1 mm and 100 divisions on its circular scale. Its zero error is +0.02 mm. While measuring the diameter of a wire, the linear scale reading is 2 mm and the circular scale reading is 45.
+    parts:
+      ka:
+        question: { bn: লঘিষ্ঠ গণন কাকে বলে?, en: What is least count? }
+        solution:
+          bn: কোনো পরিমাপক যন্ত্রের সাহায্যে সবচেয়ে ছোট যে দৈর্ঘ্য নির্ভুলভাবে মাপা যায়, তাকে ঐ যন্ত্রের লঘিষ্ঠ গণন বলে।
+          en: The least count of a measuring instrument is the smallest length it can measure accurately.
+      kha:
+        question: { bn: স্ক্রু গজের পিচ বলতে কী বোঝায়? ব্যাখ্যা কর।, en: What is meant by the pitch of a screw gauge? Explain. }
+        solution:
+          bn: |-
+            স্ক্রু গজের টুপি একবার পূর্ণ ঘোরালে স্ক্রুটি রৈখিক স্কেল বরাবর যে দূরত্ব সরে যায়, তাকে পিচ বলে। যেমন, পিচ 1 mm বলতে বোঝায় টুপিটি একবার ঘোরালে স্ক্রুর মাথা 1 mm এগোয় বা পিছায়। পিচকে বৃত্তাকার স্কেলের মোট ভাগ সংখ্যা দিয়ে ভাগ করলে লঘিষ্ঠ গণন পাওয়া যায়।
+          en: |-
+            The pitch is the distance the screw moves along the linear scale when the cap is turned through one full rotation. A pitch of 1 mm means one full turn moves the screw tip forward or back by 1 mm. Dividing the pitch by the number of circular-scale divisions gives the least count.
+      ga:
+        question: { bn: তারটির প্রকৃত ব্যাস নির্ণয় কর।, en: Find the true diameter of the wire. }
+        solution:
+          bn: |-
+            লঘিষ্ঠ গণন $= \frac{\text{পিচ}}{\text{বৃত্তাকার স্কেলের ভাগ সংখ্যা}} = \frac{1}{100} = 0.01$ mm
+            পাঠ $= 2 + 45 \times 0.01 = 2.45$ mm
+            প্রকৃত ব্যাস $=$ পাঠ $-$ শূন্য ত্রুটি $= 2.45 - 0.02 = 2.43$ mm
+          en: |-
+            Least count $= \frac{\text{pitch}}{\text{number of circular divisions}} = \frac{1}{100} = 0.01$ mm
+            Reading $= 2 + 45 \times 0.01 = 2.45$ mm
+            True diameter $=$ reading $-$ zero error $= 2.45 - 0.02 = 2.43$ mm
+      gha:
+        question:
+          bn: স্ক্রু গজের বদলে মিটার স্কেল দিয়ে তারটির ব্যাস মাপলে পরিমাপ কতটা কম নির্ভুল হবে? গাণিতিকভাবে বিশ্লেষণ কর।
+          en: How much less precise would the measurement be if a metre scale were used instead of the screw gauge? Analyse mathematically.
+        solution:
+          bn: |-
+            মিটার স্কেলের লঘিষ্ঠ গণন 1 mm, আর স্ক্রু গজের 0.01 mm।
+            মিটার স্কেলে শতকরা ত্রুটি $\approx \frac{1}{2.43} \times 100\% \approx 41\%$
+            স্ক্রু গজে শতকরা ত্রুটি $\approx \frac{0.01}{2.43} \times 100\% \approx 0.41\%$
+            অর্থাৎ মিটার স্কেলে ত্রুটি প্রায় 100 গুণ বেশি। মিটার স্কেলে পাঠ কেবল 2 mm বা 3 mm পড়া যাবে, তাই এত সরু তারের ব্যাস মাপার জন্য মিটার স্কেল উপযুক্ত নয়; স্ক্রু গজই সঠিক যন্ত্র।
+          en: |-
+            The least count of a metre scale is 1 mm; that of the screw gauge is 0.01 mm.
+            Percentage error with the metre scale $\approx \frac{1}{2.43} \times 100\% \approx 41\%$
+            Percentage error with the screw gauge $\approx \frac{0.01}{2.43} \times 100\% \approx 0.41\%$
+            So the metre scale's error is about 100 times larger. It could only read 2 mm or 3 mm, which makes it unsuitable for a wire this thin; the screw gauge is the right instrument.

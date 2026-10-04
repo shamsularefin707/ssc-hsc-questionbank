@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "syllabus",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "level",
+    "subject",
+    "title",
+    "chapters"
+  ],
+  "properties": {
+    "level": {
+      "$ref": "#/$defs/level"
+    },
+    "subject": {
+      "$ref": "#/$defs/slug"
+    },
+    "title": {
+      "$ref": "#/$defs/bi"
+    },
+    "chapters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slug",
+          "number",
+          "title",
+          "topics"
+        ],
+        "properties": {
+          "slug": {
+            "$ref": "#/$defs/slug"
+          },
+          "number": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "$ref": "#/$defs/bi"
+          },
+          "topics": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "slug",
+                "title"
+              ],
+              "properties": {
+                "slug": {
+                  "$ref": "#/$defs/slug"
+                },
+                "title": {
+                  "$ref": "#/$defs/bi"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "bi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bn",
+        "en"
+      ],
+      "properties": {
+        "bn": {
+          "type": "string"
+        },
+        "en": {
+          "type": "string"
+        }
+      }
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "level": {
+      "enum": [
+        "ssc",
+        "hsc"
+      ]
+    }
+  }
+}

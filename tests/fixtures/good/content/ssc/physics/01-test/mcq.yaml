@@ -1,0 +1,54 @@
+level: ssc
+subject: physics
+chapter: 01-test
+stimuli:
+  - id: s1
+    text: { bn: 'উদ্দীপক $x = 2$', en: 'Stimulus $x = 2$' }
+    figures:
+      - { file: figures/f.svg, alt: { bn: চিত্র, en: Figure } }
+questions:
+  - id: t-mcq-1
+    topics: [alpha]
+    difficulty: easy
+    source: { kind: board, exam: ssc, board: dhaka, year: 2023 }
+    status: reviewed
+    mcq_type: gyanmulok
+    stem: { bn: প্রশ্ন এক কোনটি সঠিক, en: Which statement about the first quantity is correct }
+    options:
+      - { bn: ক, en: apple }
+      - { bn: খ, en: banana }
+      - { bn: গ, en: cherry }
+      - { bn: ঘ, en: date }
+    answer: 0
+    explanation: { bn: ব্যাখ্যা, en: Explanation }
+  - id: t-mcq-2
+    topics: [beta]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: ovinno
+    stimulus_id: s1
+    stem: { bn: '$2x$ কত', en: 'What is the double of the stimulus value' }
+    options:
+      - { bn: '2', en: '2' }
+      - { bn: '4', en: '4 units' }
+      - { bn: '6', en: '6' }
+      - { bn: '8', en: '8' }
+    answer: 1
+    explanation: { bn: ব্যাখ্যা, en: Explanation }
+    computable: { expr: '2*2', expected: 4 }
+  - id: t-mcq-3
+    topics: [beta]
+    difficulty: hard
+    source: { kind: original }
+    status: reviewed
+    mcq_type: ovinno
+    stimulus_id: s1
+    stem: { bn: '$x^2$ কত', en: 'Find the square of the given number now' }
+    options:
+      - { bn: '1', en: '1' }
+      - { bn: '2', en: '2' }
+      - { bn: '3', en: '3' }
+      - { bn: '4', en: '4' }
+    answer: 3
+    explanation: { bn: ব্যাখ্যা, en: Explanation }
