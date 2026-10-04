@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" font-family="sans-serif" font-size="12">
+  <rect width="360" height="240" fill="#ffffff"/>
+  <g stroke="#1c1a17" stroke-width="1.5" fill="none">
+    <line x1="40" y1="200" x2="340" y2="200"/>
+    <line x1="40" y1="200" x2="40" y2="20"/>
+    <polyline points="40,200 120,60 240,60 320,200" stroke-width="2.5"/>
+  </g>
+  <g stroke="#9a958b" stroke-dasharray="4 4">
+    <line x1="120" y1="60" x2="120" y2="200"/>
+    <line x1="240" y1="60" x2="240" y2="200"/>
+    <line x1="40" y1="60" x2="120" y2="60"/>
+  </g>
+  <g fill="#1c1a17">
+    <text x="30" y="214">O</text>
+    <text x="116" y="52">A</text>
+    <text x="236" y="52">B</text>
+    <text x="324" y="196">C</text>
+    <text x="114" y="216">4</text>
+    <text x="232" y="216">10</text>
+    <text x="312" y="216">14</text>
+    <text x="16" y="64">20</text>
+    <text x="292" y="232">t (s)</text>
+    <text x="4" y="16">v (m s⁻¹)</text>
+  </g>
+</svg>

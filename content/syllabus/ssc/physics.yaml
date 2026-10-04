@@ -1,0 +1,123 @@
+# SSC Physics (NCTB, classes 9–10). Chapter list follows the textbook used for SSC 2026–27.
+level: ssc
+subject: physics
+title: { bn: পদার্থবিজ্ঞান, en: Physics }
+chapters:
+  - slug: 01-physical-quantities
+    number: 1
+    title: { bn: ভৌত রাশি ও পরিমাপ, en: Physical Quantities and Their Measurement }
+    topics:
+      - { slug: physics-intro, title: { bn: পদার্থবিজ্ঞানের পরিচিতি, en: Introduction to Physics } }
+      - { slug: quantities-units, title: { bn: ভৌত রাশি ও এদের একক, en: Physical Quantities and Units } }
+      - { slug: dimensions, title: { bn: রাশির মাত্রা, en: Dimensions of Quantities } }
+      - { slug: measuring-instruments, title: { bn: পরিমাপের যন্ত্রপাতি, en: Measuring Instruments } }
+      - { slug: errors, title: { bn: পরিমাপের ত্রুটি, en: Errors in Measurement } }
+  - slug: 02-motion
+    number: 2
+    title: { bn: গতি, en: Motion }
+    topics:
+      - { slug: rest-motion, title: { bn: স্থিতি ও গতি, en: Rest and Motion } }
+      - { slug: scalar-vector, title: { bn: স্কেলার ও ভেক্টর রাশি, en: Scalar and Vector Quantities } }
+      - { slug: speed-velocity, title: { bn: দ্রুতি ও বেগ, en: Speed and Velocity } }
+      - { slug: acceleration, title: { bn: ত্বরণ, en: Acceleration } }
+      - { slug: equations-of-motion, title: { bn: গতির সমীকরণ, en: Equations of Motion } }
+      - { slug: free-fall, title: { bn: পড়ন্ত বস্তু, en: Free Fall } }
+      - { slug: motion-graphs, title: { bn: গতির লেখচিত্র, en: Motion Graphs } }
+  - slug: 03-force
+    number: 3
+    title: { bn: বল, en: Force }
+    topics:
+      - { slug: newtons-laws, title: { bn: নিউটনের গতিসূত্র, en: Newton's Laws of Motion } }
+      - { slug: momentum, title: { bn: ভরবেগ ও এর সংরক্ষণ, en: Momentum and Its Conservation } }
+      - { slug: friction, title: { bn: ঘর্ষণ, en: Friction } }
+      - { slug: balanced-forces, title: { bn: সাম্য ও অসাম্য বল, en: Balanced and Unbalanced Forces } }
+  - slug: 04-work-power-energy
+    number: 4
+    title: { bn: 'কাজ, ক্ষমতা ও শক্তি', en: 'Work, Power and Energy' }
+    topics:
+      - { slug: work, title: { bn: কাজ, en: Work } }
+      - { slug: energy-forms, title: { bn: শক্তির রূপ ও রূপান্তর, en: Forms and Conversion of Energy } }
+      - { slug: kinetic-potential, title: { bn: গতিশক্তি ও বিভবশক্তি, en: Kinetic and Potential Energy } }
+      - { slug: power-efficiency, title: { bn: ক্ষমতা ও কর্মদক্ষতা, en: Power and Efficiency } }
+  - slug: 05-matter-pressure
+    number: 5
+    title: { bn: পদার্থের অবস্থা ও চাপ, en: State of Matter and Pressure }
+    topics:
+      - { slug: density, title: { bn: ঘনত্ব, en: Density } }
+      - { slug: pressure, title: { bn: চাপ, en: Pressure } }
+      - { slug: fluid-pressure, title: { bn: তরলের চাপ ও প্যাসকেলের সূত্র, en: Fluid Pressure and Pascal's Law } }
+      - { slug: buoyancy, title: { bn: প্লবতা ও আর্কিমিডিসের নীতি, en: Buoyancy and Archimedes' Principle } }
+      - { slug: elasticity, title: { bn: স্থিতিস্থাপকতা, en: Elasticity } }
+  - slug: 06-heat-effects
+    number: 6
+    title: { bn: বস্তুর উপর তাপের প্রভাব, en: Effect of Heat on Matter }
+    topics:
+      - { slug: temperature-scales, title: { bn: তাপমাত্রা ও স্কেল, en: Temperature and Scales } }
+      - { slug: thermal-expansion, title: { bn: তাপীয় প্রসারণ, en: Thermal Expansion } }
+      - { slug: specific-heat, title: { bn: আপেক্ষিক তাপ ও তাপধারণ ক্ষমতা, en: Specific Heat and Heat Capacity } }
+      - { slug: latent-heat, title: { bn: সুপ্ত তাপ ও অবস্থার পরিবর্তন, en: Latent Heat and Change of State } }
+  - slug: 07-waves-sound
+    number: 7
+    title: { bn: তরঙ্গ ও শব্দ, en: Waves and Sound }
+    topics:
+      - { slug: wave-types, title: { bn: তরঙ্গের প্রকারভেদ, en: Types of Waves } }
+      - { slug: wave-quantities, title: { bn: তরঙ্গ সংশ্লিষ্ট রাশি, en: Wave Quantities } }
+      - { slug: sound-speed, title: { bn: শব্দের বেগ, en: Speed of Sound } }
+      - { slug: echo, title: { bn: প্রতিধ্বনি, en: Echo } }
+      - { slug: sound-characteristics, title: { bn: শব্দের বৈশিষ্ট্য, en: Characteristics of Sound } }
+  - slug: 08-reflection
+    number: 8
+    title: { bn: আলোর প্রতিফলন, en: Reflection of Light }
+    topics:
+      - { slug: laws-of-reflection, title: { bn: প্রতিফলনের সূত্র, en: Laws of Reflection } }
+      - { slug: plane-mirror, title: { bn: সমতল দর্পণ, en: Plane Mirror } }
+      - { slug: spherical-mirrors, title: { bn: গোলীয় দর্পণ, en: Spherical Mirrors } }
+      - { slug: mirror-equation, title: { bn: দর্পণের সমীকরণ ও বিবর্ধন, en: Mirror Equation and Magnification } }
+  - slug: 09-refraction
+    number: 9
+    title: { bn: আলোর প্রতিসরণ, en: Refraction of Light }
+    topics:
+      - { slug: laws-of-refraction, title: { bn: প্রতিসরণের সূত্র ও প্রতিসরাঙ্ক, en: Laws of Refraction and Refractive Index } }
+      - { slug: total-internal-reflection, title: { bn: পূর্ণ অভ্যন্তরীণ প্রতিফলন, en: Total Internal Reflection } }
+      - { slug: lenses, title: { bn: লেন্স ও প্রতিবিম্ব, en: Lenses and Images } }
+      - { slug: lens-power, title: { bn: লেন্সের ক্ষমতা, en: Power of a Lens } }
+      - { slug: eye-defects, title: { bn: চোখ ও দৃষ্টির ত্রুটি, en: The Eye and Defects of Vision } }
+  - slug: 10-static-electricity
+    number: 10
+    title: { bn: স্থির বিদ্যুৎ, en: Static Electricity }
+    topics:
+      - { slug: charge, title: { bn: আধান ও আধানের প্রকৃতি, en: Charge and Its Nature } }
+      - { slug: coulombs-law, title: { bn: কুলম্বের সূত্র, en: Coulomb's Law } }
+      - { slug: electric-field, title: { bn: তড়িৎ ক্ষেত্র ও প্রাবল্য, en: Electric Field and Intensity } }
+      - { slug: potential, title: { bn: বিভব ও বিভব পার্থক্য, en: Potential and Potential Difference } }
+  - slug: 11-current-electricity
+    number: 11
+    title: { bn: চল বিদ্যুৎ, en: Current Electricity }
+    topics:
+      - { slug: current, title: { bn: তড়িৎ প্রবাহ, en: Electric Current } }
+      - { slug: ohms-law, title: { bn: ওহমের সূত্র ও রোধ, en: Ohm's Law and Resistance } }
+      - { slug: series-parallel, title: { bn: শ্রেণি ও সমান্তরাল সংযোগ, en: Series and Parallel Connection } }
+      - { slug: electric-power, title: { bn: তড়িৎ ক্ষমতা ও শক্তি, en: Electric Power and Energy } }
+  - slug: 12-magnetic-effects
+    number: 12
+    title: { bn: বিদ্যুতের চৌম্বক ক্রিয়া, en: Magnetic Effects of Current }
+    topics:
+      - { slug: magnetic-field-current, title: { bn: তড়িৎ প্রবাহের চৌম্বক ক্ষেত্র, en: Magnetic Field of a Current } }
+      - { slug: electromagnet-motor, title: { bn: তড়িৎ চুম্বক ও মোটর, en: Electromagnets and Motors } }
+      - { slug: induction, title: { bn: তড়িৎ চৌম্বক আবেশ, en: Electromagnetic Induction } }
+      - { slug: transformer, title: { bn: ট্রান্সফরমার, en: Transformer } }
+  - slug: 13-modern-physics-electronics
+    number: 13
+    title: { bn: আধুনিক পদার্থবিজ্ঞান ও ইলেকট্রনিক্স, en: Modern Physics and Electronics }
+    topics:
+      - { slug: radioactivity, title: { bn: তেজস্ক্রিয়তা, en: Radioactivity } }
+      - { slug: half-life, title: { bn: অর্ধায়ু, en: Half-life } }
+      - { slug: semiconductors, title: { bn: অর্ধপরিবাহী ও ডায়োড, en: Semiconductors and Diodes } }
+      - { slug: digital-electronics, title: { bn: ডিজিটাল ইলেকট্রনিক্স, en: Digital Electronics } }
+  - slug: 14-physics-saving-lives
+    number: 14
+    title: { bn: জীবন বাঁচাতে পদার্থবিজ্ঞান, en: Physics to Save Lives }
+    topics:
+      - { slug: medical-imaging, title: { bn: চিকিৎসায় চিত্রায়ণ, en: Medical Imaging } }
+      - { slug: radiotherapy, title: { bn: রেডিওথেরাপি, en: Radiotherapy } }
+      - { slug: radiation-safety, title: { bn: বিকিরণ ও নিরাপত্তা, en: Radiation and Safety } }

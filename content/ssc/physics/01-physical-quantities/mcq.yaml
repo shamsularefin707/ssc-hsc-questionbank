@@ -1,0 +1,84 @@
+level: ssc
+subject: physics
+chapter: 01-physical-quantities
+questions:
+  - id: ssc-phy-01-mcq-0001
+    topics: [quantities-units]
+    difficulty: easy
+    source: { kind: original }
+    status: reviewed
+    mcq_type: gyanmulok
+    stem:
+      bn: দীপন তীব্রতার এসআই একক কোনটি?
+      en: What is the SI unit of luminous intensity?
+    options:
+      - { bn: ক্যান্ডেলা, en: candela }
+      - { bn: লুমেন, en: lumen }
+      - { bn: লাক্স, en: lux }
+      - { bn: ওয়াট, en: watt }
+    answer: 0
+    explanation:
+      bn: দীপন তীব্রতা সাতটি মৌলিক রাশির একটি, এবং এর এসআই একক ক্যান্ডেলা (cd)।
+      en: Luminous intensity is one of the seven fundamental quantities, and its SI unit is the candela (cd).
+
+  - id: ssc-phy-01-mcq-0002
+    topics: [dimensions]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: onudhabon
+    stem:
+      bn: কাজ ও শক্তির একক একই হওয়ার কারণ কী?
+      en: Why do work and energy have the same unit?
+    options:
+      - { bn: উভয়ই ভেক্টর রাশি, en: Both are vector quantities }
+      - { bn: 'উভয়ের মাত্রা $[ML^2T^{-2}]$', en: 'Both have the dimension $[ML^2T^{-2}]$' }
+      - { bn: উভয়ই মৌলিক রাশি, en: Both are fundamental quantities }
+      - { bn: উভয়ের মান সবসময় সমান, en: Their values are always equal }
+    answer: 1
+    explanation:
+      bn: 'কাজ = বল × সরণ, যার মাত্রা $[MLT^{-2}][L] = [ML^2T^{-2}]$। শক্তি হলো কাজ করার সামর্থ্য, তাই এর মাত্রাও একই। মাত্রা এক হওয়ায় একক (জুল) একই। কাজ ও শক্তি উভয়ই স্কেলার এবং লব্ধ রাশি।'
+      en: 'Work = force × displacement, with dimension $[MLT^{-2}][L] = [ML^2T^{-2}]$. Energy is the capacity to do work, so it has the same dimension, and therefore the same unit (joule). Both are scalar, derived quantities.'
+
+  - id: ssc-phy-01-mcq-0003
+    topics: [measuring-instruments]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: onudhabon
+    stem:
+      bn: একটি স্লাইড ক্যালিপার্সের প্রধান স্কেলের ক্ষুদ্রতম এক ভাগ 1 mm এবং ভার্নিয়ার স্কেলের 10 ভাগ প্রধান স্কেলের 9 ভাগের সমান। ভার্নিয়ার ধ্রুবক কত?
+      en: The smallest main-scale division of a slide calipers is 1 mm, and 10 vernier divisions equal 9 main-scale divisions. What is the vernier constant?
+    options:
+      - { bn: 0.01 mm, en: 0.01 mm }
+      - { bn: 0.1 mm, en: 0.1 mm }
+      - { bn: 0.9 mm, en: 0.9 mm }
+      - { bn: 1 mm, en: 1 mm }
+    answer: 1
+    explanation:
+      bn: 'ভার্নিয়ারের 1 ভাগ $= \frac{9}{10}$ mm $= 0.9$ mm। ভার্নিয়ার ধ্রুবক = প্রধান স্কেলের 1 ভাগ − ভার্নিয়ারের 1 ভাগ $= 1 - 0.9 = 0.1$ mm।'
+      en: 'One vernier division $= \frac{9}{10}$ mm $= 0.9$ mm. Vernier constant = one main-scale division − one vernier division $= 1 - 0.9 = 0.1$ mm.'
+    computable: { expr: '1 - 9/10', expected: 0.1 }
+
+  - id: ssc-phy-01-mcq-0004
+    topics: [quantities-units]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    mcq_type: bohupodi
+    stem:
+      bn: ভৌত রাশি সম্পর্কে নিচের উক্তিগুলো লক্ষ কর।
+      en: Consider the following statements about physical quantities.
+    statements:
+      - { bn: ভর একটি মৌলিক রাশি, en: Mass is a fundamental quantity }
+      - { bn: বল একটি লব্ধ রাশি, en: Force is a derived quantity }
+      - { bn: তাপমাত্রা একটি লব্ধ রাশি, en: Temperature is a derived quantity }
+    options:
+      - { bn: i ও ii, en: i and ii }
+      - { bn: i ও iii, en: i and iii }
+      - { bn: ii ও iii, en: ii and iii }
+      - { bn: 'i, ii ও iii', en: 'i, ii and iii' }
+    answer: 0
+    explanation:
+      bn: ভর ও তাপমাত্রা দুটোই সাতটি মৌলিক রাশির অন্তর্ভুক্ত। বল ভর ও ত্বরণ থেকে পাওয়া যায়, তাই এটি লব্ধ রাশি। সুতরাং iii ভুল, i ও ii সঠিক।
+      en: Mass and temperature are both among the seven fundamental quantities. Force is obtained from mass and acceleration, so it is derived. Statement iii is false, so i and ii are correct.

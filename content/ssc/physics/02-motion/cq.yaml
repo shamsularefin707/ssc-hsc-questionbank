@@ -1,0 +1,136 @@
+level: ssc
+subject: physics
+chapter: 02-motion
+questions:
+  - id: ssc-phy-02-cq-0001
+    topics: [equations-of-motion, acceleration]
+    difficulty: medium
+    source: { kind: original }
+    status: reviewed
+    stimulus:
+      bn: 'একটি গাড়ি $10\ \text{m s}^{-1}$ আদিবেগে $2\ \text{m s}^{-2}$ সুষম ত্বরণে 5 s চলল। এরপর ব্রেক চাপায় সুষম মন্দনে আরও 4 s চলে গাড়িটি থেমে গেল।'
+      en: 'A car moving with an initial velocity of $10\ \text{m s}^{-1}$ accelerates uniformly at $2\ \text{m s}^{-2}$ for 5 s. The brakes are then applied and it decelerates uniformly, stopping after another 4 s.'
+    parts:
+      ka:
+        question: { bn: সুষম ত্বরণ কাকে বলে?, en: What is uniform acceleration? }
+        solution:
+          bn: কোনো বস্তুর বেগ যদি সবসময় একই হারে বাড়তে থাকে, অর্থাৎ সমান সময়ে বেগের সমান পরিবর্তন হয়, তবে তার ত্বরণকে সুষম ত্বরণ বলে।
+          en: If a body's velocity increases at a constant rate, so that it changes by equal amounts in equal intervals of time, its acceleration is called uniform acceleration.
+      kha:
+        question: { bn: মন্দনকে ঋণাত্মক ত্বরণ বলা হয় কেন?, en: Why is deceleration called negative acceleration? }
+        solution:
+          bn: 'ত্বরণ $a = \frac{v - u}{t}$। মন্দনের সময় বস্তুর বেগ কমতে থাকে, অর্থাৎ শেষবেগ $v$ আদিবেগ $u$-এর চেয়ে কম হয়। ফলে $v - u$ ঋণাত্মক হয় এবং ত্বরণের মান ঋণাত্মক আসে। তাই মন্দনকে ঋণাত্মক ত্বরণ বলা হয়।'
+          en: 'Acceleration is $a = \frac{v - u}{t}$. During deceleration the velocity decreases, so the final velocity $v$ is less than the initial velocity $u$. Then $v - u$ is negative and the acceleration comes out negative, which is why deceleration is called negative acceleration.'
+      ga:
+        question: { bn: 5 s পর গাড়িটির বেগ এবং এ সময়ে অতিক্রান্ত দূরত্ব নির্ণয় কর।, en: Find the car's velocity after 5 s and the distance it covers in that time. }
+        solution:
+          bn: |-
+            $v = u + at = 10 + 2 \times 5 = 20\ \text{m s}^{-1}$
+            $s = ut + \frac{1}{2}at^2 = 10 \times 5 + \frac{1}{2} \times 2 \times 5^2 = 50 + 25 = 75$ m
+          en: |-
+            $v = u + at = 10 + 2 \times 5 = 20\ \text{m s}^{-1}$
+            $s = ut + \frac{1}{2}at^2 = 10 \times 5 + \frac{1}{2} \times 2 \times 5^2 = 50 + 25 = 75$ m
+      gha:
+        question:
+          bn: গাড়িটি ত্বরণ পর্যায় ও মন্দন পর্যায়ে সমান দূরত্ব অতিক্রম করে কি? গাণিতিক বিশ্লেষণের মাধ্যমে মতামত দাও।
+          en: Does the car cover equal distances in the accelerating and decelerating phases? Give your view with a mathematical analysis.
+        solution:
+          bn: |-
+            ত্বরণ পর্যায়ে দূরত্ব (গ থেকে) $= 75$ m।
+            মন্দন পর্যায়ে $u = 20\ \text{m s}^{-1}$, $v = 0$, $t = 4$ s।
+            মন্দন $a = \frac{0 - 20}{4} = -5\ \text{m s}^{-2}$
+            দূরত্ব $s = \frac{u + v}{2} \times t = \frac{20 + 0}{2} \times 4 = 40$ m
+            যেহেতু $75 \neq 40$, গাড়িটি দুই পর্যায়ে সমান দূরত্ব অতিক্রম করে না। মন্দন পর্যায়ে সময় কম এবং গড় বেগও কম ($10\ \text{m s}^{-1}$ বনাম $15\ \text{m s}^{-1}$), তাই এ পর্যায়ে দূরত্ব কম।
+          en: |-
+            Distance in the accelerating phase (from part c) $= 75$ m.
+            In the decelerating phase $u = 20\ \text{m s}^{-1}$, $v = 0$, $t = 4$ s.
+            Deceleration $a = \frac{0 - 20}{4} = -5\ \text{m s}^{-2}$
+            Distance $s = \frac{u + v}{2} \times t = \frac{20 + 0}{2} \times 4 = 40$ m
+            Since $75 \neq 40$, the distances are not equal. The decelerating phase is shorter and its average velocity is lower ($10\ \text{m s}^{-1}$ against $15\ \text{m s}^{-1}$), so it covers less distance.
+
+  - id: ssc-phy-02-cq-0002
+    topics: [motion-graphs, acceleration]
+    difficulty: hard
+    source: { kind: original }
+    status: reviewed
+    figures:
+      - file: figures/velocity-time.svg
+        alt:
+          bn: 'বেগ-সময় লেখচিত্র: O থেকে A পর্যন্ত 4 s-এ বেগ 0 থেকে 20 m/s, A থেকে B পর্যন্ত 10 s পর্যন্ত বেগ 20 m/s স্থির, B থেকে C পর্যন্ত 14 s-এ বেগ কমে শূন্য।'
+          en: 'Velocity–time graph: from O to A the velocity rises from 0 to 20 m/s in 4 s, from A to B it stays at 20 m/s until 10 s, and from B to C it falls to zero at 14 s.'
+    stimulus:
+      bn: চিত্রে একটি বস্তুর গতির বেগ-সময় লেখচিত্র দেখানো হলো।
+      en: The figure shows the velocity–time graph of a moving body.
+    parts:
+      ka:
+        question: { bn: বেগ-সময় লেখচিত্রের ঢাল কী নির্দেশ করে?, en: What does the slope of a velocity–time graph represent? }
+        solution:
+          bn: বেগ-সময় লেখচিত্রের ঢাল বস্তুর ত্বরণ নির্দেশ করে।
+          en: The slope of a velocity–time graph represents the body's acceleration.
+      kha:
+        question: { bn: লেখচিত্রের AB অংশে বস্তুটির ত্বরণ শূন্য কেন? ব্যাখ্যা কর।, en: Why is the body's acceleration zero along AB? Explain. }
+        solution:
+          bn: AB অংশে লেখচিত্রটি সময় অক্ষের সমান্তরাল, অর্থাৎ 4 s থেকে 10 s পর্যন্ত বেগ 20 m/s-এ স্থির থাকে। বেগের কোনো পরিবর্তন না হওয়ায় ঢাল শূন্য, তাই ত্বরণও শূন্য।
+          en: Along AB the graph is parallel to the time axis, so the velocity stays at 20 m/s from 4 s to 10 s. With no change in velocity the slope is zero, so the acceleration is zero.
+      ga:
+        question: { bn: OA অংশে বস্তুটির ত্বরণ নির্ণয় কর।, en: Find the body's acceleration along OA. }
+        solution:
+          bn: 'OA অংশে ত্বরণ $= \frac{\text{বেগের পরিবর্তন}}{\text{সময়}} = \frac{20 - 0}{4 - 0} = 5\ \text{m s}^{-2}$'
+          en: 'Acceleration along OA $= \frac{\text{change in velocity}}{\text{time}} = \frac{20 - 0}{4 - 0} = 5\ \text{m s}^{-2}$'
+      gha:
+        question:
+          bn: '"বস্তুটির গড় বেগ তার সর্বোচ্চ বেগের অর্ধেক।" উক্তিটির যথার্থতা গাণিতিকভাবে যাচাই কর।'
+          en: '"The body''s average velocity is half its maximum velocity." Check this statement mathematically.'
+        solution:
+          bn: |-
+            মোট সরণ = লেখচিত্রের নিচের ক্ষেত্রফল
+            $= \frac{1}{2} \times 4 \times 20 + (10 - 4) \times 20 + \frac{1}{2} \times (14 - 10) \times 20$
+            $= 40 + 120 + 40 = 200$ m
+            গড় বেগ $= \frac{200}{14} \approx 14.29\ \text{m s}^{-1}$
+            সর্বোচ্চ বেগের অর্ধেক $= \frac{20}{2} = 10\ \text{m s}^{-1}$
+            যেহেতু $14.29 \neq 10$, উক্তিটি সঠিক নয়। বস্তুটি দীর্ঘ সময় (6 s) সর্বোচ্চ বেগে চলায় গড় বেগ সর্বোচ্চ বেগের অর্ধেকের চেয়ে বেশি।
+          en: |-
+            Total displacement = area under the graph
+            $= \frac{1}{2} \times 4 \times 20 + (10 - 4) \times 20 + \frac{1}{2} \times (14 - 10) \times 20$
+            $= 40 + 120 + 40 = 200$ m
+            Average velocity $= \frac{200}{14} \approx 14.29\ \text{m s}^{-1}$
+            Half the maximum velocity $= \frac{20}{2} = 10\ \text{m s}^{-1}$
+            Since $14.29 \neq 10$, the statement is not correct. The body spends a long time (6 s) at its maximum velocity, so its average velocity is more than half the maximum.
+
+  - id: ssc-phy-02-cq-0003
+    topics: [free-fall, scalar-vector]
+    difficulty: easy
+    source: { kind: original }
+    status: reviewed
+    stimulus:
+      bn: 'রাফি একটি পাথর $19.6\ \text{m s}^{-1}$ বেগে খাড়া উপরের দিকে নিক্ষেপ করল। ($g = 9.8\ \text{m s}^{-2}$, বায়ুর বাধা উপেক্ষণীয়)'
+      en: 'Rafi throws a stone vertically upward at $19.6\ \text{m s}^{-1}$. ($g = 9.8\ \text{m s}^{-2}$; ignore air resistance.)'
+    parts:
+      ka:
+        question: { bn: পড়ন্ত বস্তুর প্রথম সূত্রটি লেখ।, en: State the first law of falling bodies. }
+        solution:
+          bn: স্থির অবস্থান থেকে এবং একই উচ্চতা থেকে বিনা বাধায় পড়ন্ত সকল বস্তু সমান সময়ে সমান পথ অতিক্রম করে।
+          en: All bodies released from rest from the same height and falling without resistance cover equal distances in equal times.
+      kha:
+        question: { bn: সর্বোচ্চ উচ্চতায় পাথরের বেগ শূন্য হলেও ত্বরণ শূন্য নয় কেন?, en: Why is the stone's acceleration not zero at its highest point even though its velocity is zero? }
+        solution:
+          bn: 'সর্বোচ্চ উচ্চতায় মুহূর্তের জন্য পাথরের বেগ শূন্য হয়, কিন্তু অভিকর্ষ বল তখনও পাথরের উপর নিচের দিকে কাজ করে। তাই এর ত্বরণ $g = 9.8\ \text{m s}^{-2}$ নিচের দিকে থাকে, এবং এ কারণেই পাথরটি আবার নিচে নামতে শুরু করে।'
+          en: 'At the highest point the stone''s velocity is zero for an instant, but gravity still acts on it downward. Its acceleration is still $g = 9.8\ \text{m s}^{-2}$ downward, which is why it starts to fall again.'
+      ga:
+        question: { bn: পাথরটি সর্বোচ্চ কত উচ্চতায় উঠবে?, en: What maximum height does the stone reach? }
+        solution:
+          bn: 'সর্বোচ্চ উচ্চতায় $v = 0$। $v^2 = u^2 - 2gh$ থেকে $h = \frac{u^2}{2g} = \frac{19.6^2}{2 \times 9.8} = \frac{384.16}{19.6} = 19.6$ m'
+          en: 'At the highest point $v = 0$. From $v^2 = u^2 - 2gh$, $h = \frac{u^2}{2g} = \frac{19.6^2}{2 \times 9.8} = \frac{384.16}{19.6} = 19.6$ m'
+      gha:
+        question:
+          bn: পাথরটির উঠতে ও নামতে সমান সময় লাগে কি? গাণিতিকভাবে বিশ্লেষণ কর।
+          en: Does the stone take equal times to go up and to come down? Analyse mathematically.
+        solution:
+          bn: |-
+            ওঠার সময়: $v = u - gt$ থেকে $0 = 19.6 - 9.8t_1$, তাই $t_1 = 2$ s
+            নামার সময়: সর্বোচ্চ উচ্চতা 19.6 m থেকে স্থির অবস্থা থেকে পড়ে, $h = \frac{1}{2}gt_2^2$ থেকে $t_2 = \sqrt{\frac{2 \times 19.6}{9.8}} = \sqrt{4} = 2$ s
+            যেহেতু $t_1 = t_2 = 2$ s, ওঠা ও নামার সময় সমান, এবং মোট সময় 4 s। বায়ুর বাধা না থাকায় একই ত্বরণ $g$ দুই দিকেই একই উচ্চতা অতিক্রমে কাজ করে, তাই সময় সমান হয়।
+          en: |-
+            Time up: from $v = u - gt$, $0 = 19.6 - 9.8t_1$, so $t_1 = 2$ s
+            Time down: falling from rest through 19.6 m, $h = \frac{1}{2}gt_2^2$ gives $t_2 = \sqrt{\frac{2 \times 19.6}{9.8}} = \sqrt{4} = 2$ s
+            Since $t_1 = t_2 = 2$ s, the times are equal, and the total time is 4 s. Without air resistance the same acceleration $g$ acts over the same height in both directions, so the times match.
